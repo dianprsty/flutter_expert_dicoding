@@ -1,55 +1,58 @@
-// /domain/entities/movie.dart
+// /domain/entities/tv_series.dart
 import 'package:equatable/equatable.dart';
 
-class Movie extends Equatable {
+class TvSeries extends Equatable {
   final bool? adult;
   final String? backdropPath;
   final List<int>? genreIds;
   final int id;
-  final String? originalTitle;
+  final List<String>? originCountry;
+  final String? originalLanguage;
+  final String? originalName;
   final String? overview;
   final double? popularity;
   final String? posterPath;
-  final String? releaseDate;
-  final String? title;
-  final bool? video;
+  final String? firstAirDate;
+  final String? name;
   final double? voteAverage;
   final int? voteCount;
 
-  const Movie({
+  const TvSeries({
     required this.adult,
     required this.backdropPath,
     required this.genreIds,
     required this.id,
-    required this.originalTitle,
+    required this.originCountry,
+    required this.originalLanguage,
+    required this.originalName,
     required this.overview,
     required this.popularity,
     required this.posterPath,
-    required this.releaseDate,
-    required this.title,
-    required this.video,
+    required this.firstAirDate,
+    required this.name,
     required this.voteAverage,
     required this.voteCount,
   });
 
-  const Movie.watchlist({
+  const TvSeries.watchlist({
     required int id,
     required String overview,
     required String posterPath,
-    required String title,
-  }) : adult = null,
+    required String name,
+  }) : id = id,
+       overview = overview,
+       adult = null,
        backdropPath = null,
        genreIds = null,
-       originalTitle = null,
+       originCountry = null,
+       originalLanguage = null,
+       originalName = null,
        popularity = null,
-       releaseDate = null,
-       video = null,
-       voteAverage = null,
-       voteCount = null,
-       id = id,
-       overview = overview,
        posterPath = posterPath,
-       title = title;
+       firstAirDate = null,
+       name = name,
+       voteAverage = null,
+       voteCount = null;
 
   @override
   List<Object?> get props => [
@@ -57,13 +60,14 @@ class Movie extends Equatable {
     backdropPath,
     genreIds,
     id,
-    originalTitle,
+    originCountry,
+    originalLanguage,
+    originalName,
     overview,
     popularity,
     posterPath,
-    releaseDate,
-    title,
-    video,
+    firstAirDate,
+    name,
     voteAverage,
     voteCount,
   ];
