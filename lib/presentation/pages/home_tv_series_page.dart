@@ -8,7 +8,7 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/presentation/pages/on_the_air_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/popular_tv_series_page.dart';
-import 'package:ditonton/presentation/pages/search_page.dart';
+import 'package:ditonton/presentation/pages/search_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/provider/tv_series_list_notifier.dart';
@@ -41,7 +41,7 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
+              Navigator.pushNamed(context, SearchTvSeriesPage.ROUTE_NAME);
             },
             icon: Icon(Icons.search),
           ),

@@ -29,6 +29,7 @@ import 'package:ditonton/domain/usecases/tv_series/get_watchlist_tv_series.dart'
 import 'package:ditonton/domain/usecases/tv_series/get_watchlist_tv_status.dart';
 import 'package:ditonton/domain/usecases/tv_series/remove_watchlist_tv.dart';
 import 'package:ditonton/domain/usecases/tv_series/save_watchlist_tv.dart';
+import 'package:ditonton/domain/usecases/tv_series/search_tv_series.dart';
 import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
@@ -39,6 +40,7 @@ import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_tv_series_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_series_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_series_list_notifier.dart';
+import 'package:ditonton/presentation/provider/tv_series_search_notifier.dart';
 import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
 import 'package:ditonton/presentation/provider/watchlist_tv_series_notifier.dart';
 
@@ -86,6 +88,10 @@ void init() {
       removeWatchlist: locator(),
     ),
   );
+
+  locator.registerFactory(
+    () => TvSeriesSearchNotifier(searchTvSeries: locator()),
+  );
   locator.registerFactory(() => PopularTvSeriesNotifier(locator()));
   locator.registerFactory(
     () => TopRatedTvSeriesNotifier(getTopRatedTvSeries: locator()),
@@ -113,6 +119,7 @@ void init() {
   locator.registerLazySingleton(() => GetTopRatedTvSeries(locator()));
   locator.registerLazySingleton(() => GetTvSeriesDetail(locator()));
   locator.registerLazySingleton(() => GetTvSeriesRecommendations(locator()));
+  locator.registerLazySingleton(() => SearchTvSeries(locator()));
   locator.registerLazySingleton(() => GetWatchlistTvStatus(locator()));
   locator.registerLazySingleton(() => SaveWatchlistTv(locator()));
   locator.registerLazySingleton(() => RemoveWatchlistTv(locator()));
