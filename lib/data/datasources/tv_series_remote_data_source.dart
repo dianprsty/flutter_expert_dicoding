@@ -8,7 +8,7 @@ import 'package:ditonton/data/models/tv_series_model.dart';
 import 'package:ditonton/data/models/tv_series_response.dart';
 
 abstract class TvSeriesRemoteDataSource {
-  Future<List<TvSeriesModel>> getNowPlayingTvSeries();
+  Future<List<TvSeriesModel>> getOnTheAirTvSeries();
   Future<List<TvSeriesModel>> getPopularTvSeries();
   Future<List<TvSeriesModel>> getTopRatedTvSeries();
   Future<TvSeriesDetailResponse> getTvSeriesDetail(int id);
@@ -25,7 +25,7 @@ class TvSeriesRemoteDataSourceImpl implements TvSeriesRemoteDataSource {
   TvSeriesRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<List<TvSeriesModel>> getNowPlayingTvSeries() async {
+  Future<List<TvSeriesModel>> getOnTheAirTvSeries() async {
     final response = await client.get(
       Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY'),
     );

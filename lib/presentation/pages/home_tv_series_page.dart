@@ -5,13 +5,12 @@ import 'package:provider/provider.dart';
 
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
-import 'package:ditonton/presentation/pages/popular_movies_page.dart';
+import 'package:ditonton/presentation/pages/on_the_air_tv_series_page.dart';
+import 'package:ditonton/presentation/pages/popular_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
-import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
-import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
+import 'package:ditonton/presentation/pages/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/provider/tv_series_list_notifier.dart';
 import 'package:ditonton/presentation/widgets/app_drawer.dart';
 
@@ -56,8 +55,10 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
             children: [
               _buildSubHeading(
                 title: 'On Going',
-                onTap: () =>
-                    Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  OnTheAirTvSeriesPage.ROUTE_NAME,
+                ),
               ),
               Consumer<TvSeriesListNotifier>(
                 builder: (context, data, child) {
@@ -74,8 +75,10 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
 
               _buildSubHeading(
                 title: 'Popular',
-                onTap: () =>
-                    Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  PopularTvSeriesPage.ROUTE_NAME,
+                ),
               ),
               Consumer<TvSeriesListNotifier>(
                 builder: (context, data, child) {
@@ -91,8 +94,10 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
               ),
               _buildSubHeading(
                 title: 'Top Rated',
-                onTap: () =>
-                    Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME),
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  TopRatedTvSeriesPage.ROUTE_NAME,
+                ),
               ),
               Consumer<TvSeriesListNotifier>(
                 builder: (context, data, child) {
