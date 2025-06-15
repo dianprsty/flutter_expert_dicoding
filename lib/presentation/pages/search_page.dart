@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
+
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SearchPage extends StatelessWidget {
   static const ROUTE_NAME = '/search';
@@ -11,9 +13,7 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Search'),
-      ),
+      appBar: AppBar(title: Text('Search Movie')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -21,8 +21,10 @@ class SearchPage extends StatelessWidget {
           children: [
             TextField(
               onSubmitted: (query) {
-                Provider.of<MovieSearchNotifier>(context, listen: false)
-                    .fetchMovieSearch(query);
+                Provider.of<MovieSearchNotifier>(
+                  context,
+                  listen: false,
+                ).fetchMovieSearch(query);
               },
               decoration: InputDecoration(
                 hintText: 'Search title',
@@ -32,16 +34,11 @@ class SearchPage extends StatelessWidget {
               textInputAction: TextInputAction.search,
             ),
             SizedBox(height: 16),
-            Text(
-              'Search Result',
-              style: kHeading6,
-            ),
+            Text('Search Result', style: kHeading6),
             Consumer<MovieSearchNotifier>(
               builder: (context, data, child) {
                 if (data.state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return Center(child: CircularProgressIndicator());
                 } else if (data.state == RequestState.Loaded) {
                   final result = data.searchResult;
                   return Expanded(
@@ -55,9 +52,7 @@ class SearchPage extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return Expanded(
-                    child: Container(),
-                  );
+                  return Expanded(child: Container());
                 }
               },
             ),
