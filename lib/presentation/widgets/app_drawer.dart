@@ -22,17 +22,17 @@ class AppDrawer extends StatelessWidget {
             decoration: BoxDecoration(color: Colors.grey.shade900),
           ),
           ListTile(
-            leading: Icon(Icons.movie),
-            title: Text('Movies'),
-            onTap: () {
-              Navigator.pushNamed(context, '/home');
-            },
-          ),
-          ListTile(
             leading: Icon(Icons.tv),
             title: Text('Tv Series'),
             onTap: () {
               Navigator.pushNamed(context, HomeTvSeriesPage.ROUTE_NAME);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.movie),
+            title: Text('Movies'),
+            onTap: () {
+              Navigator.pushNamed(context, '/home');
             },
           ),
           ListTile(

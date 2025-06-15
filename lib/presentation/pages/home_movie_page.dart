@@ -14,6 +14,7 @@ import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/widgets/app_drawer.dart';
 
 class HomeMoviePage extends StatefulWidget {
+  static const ROUTE_NAME = '/home-movie';
   @override
   _HomeMoviePageState createState() => _HomeMoviePageState();
 }

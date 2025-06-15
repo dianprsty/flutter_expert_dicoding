@@ -30,6 +30,18 @@ class MovieTable extends Equatable {
     overview: map['overview'],
   );
 
+  MovieTable copyWith({
+    int? id,
+    String? title,
+    String? posterPath,
+    String? overview,
+  }) => MovieTable(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    posterPath: posterPath ?? this.posterPath,
+    overview: overview ?? this.overview,
+  );
+
   Map<String, dynamic> toJson() => {
     'id': id,
     'title': title,
