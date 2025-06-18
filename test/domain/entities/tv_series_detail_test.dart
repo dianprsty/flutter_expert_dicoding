@@ -44,8 +44,6 @@ void main() {
     expect(testTvSeriesDetail.backdropPath, 'backdropPath');
     expect(testTvSeriesDetail.genres, [testGenre]);
     expect(testTvSeriesDetail.id, 1);
-    // Remove this line as originalName doesn't exist in TvSeriesDetail
-    // expect(testTvSeriesDetail.originalName, 'Original Name');
     expect(testTvSeriesDetail.overview, 'Overview');
     expect(testTvSeriesDetail.posterPath, 'posterPath');
     expect(testTvSeriesDetail.firstAirDate, '2022-01-01');

@@ -227,6 +227,8 @@ class DetailContent extends StatelessWidget {
                                 }
                               },
                             ),
+                            SizedBox(height: 24),
+                            Text('Seasons and Episodes', style: kHeading6),
 
                             Column(
                               children: [
