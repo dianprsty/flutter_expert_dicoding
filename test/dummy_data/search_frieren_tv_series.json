@@ -1,0 +1,23 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/96RT2A47UdzWlUfvIERFyBsLhL2.jpg",
+      "genre_ids": [16, 10759, 18, 10765],
+      "id": 209867,
+      "origin_country": ["JP"],
+      "original_language": "ja",
+      "original_name": "Frieren",
+      "overview": "Decades after her party defeated the Demon King, an old friend's funeral launches the elf wizard Frieren on a journey of self-discovery.",
+      "popularity": 45.4982,
+      "poster_path": "/dqZENchTd7lp5zht7BdlqM7RBhD.jpg",
+      "first_air_date": "2023-09-29",
+      "name": "Frieren: Beyond Journey's End",
+      "vote_average": 8.8,
+      "vote_count": 451
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 1
+}

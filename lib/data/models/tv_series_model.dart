@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-// /data/models/tv_series_model.dart
 import 'package:ditonton/domain/entities/tv_series.dart';
 
 class TvSeriesModel extends Equatable {
@@ -37,7 +36,7 @@ class TvSeriesModel extends Equatable {
   final int voteCount;
 
   factory TvSeriesModel.fromJson(Map<String, dynamic> json) => TvSeriesModel(
-    adult: json["adult"],
+    adult: json["adult"] ?? false, 
     backdropPath: json["backdrop_path"],
     genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
     id: json["id"],

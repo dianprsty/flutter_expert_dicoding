@@ -9,7 +9,8 @@ import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/domain/entities/tv_series_detail.dart';
-import 'package:ditonton/presentation/provider/tv_series_detail_notifier.dart';
+import 'package:ditonton/presentation/provider/tv_series/tv_series_detail_notifier.dart';
+import 'package:ditonton/presentation/widgets/season_card.dart';
 
 class TvSeriesDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/tv-series/detail';
@@ -152,7 +153,7 @@ class DetailContent extends StatelessWidget {
                               ),
                             ),
                             Text(_showGenres(tvSeries.genres)),
-                            Text(_showDuration(tvSeries.numberOfEpisodes)),
+                            Text('${tvSeries.numberOfSeasons} Seasons'),
                             Row(
                               children: [
                                 RatingBarIndicator(
@@ -226,6 +227,14 @@ class DetailContent extends StatelessWidget {
                                 }
                               },
                             ),
+
+                            Column(
+                              children: [
+                                ...tvSeries.seasons
+                                    .map((season) => SeasonCard(season: season))
+                                    .toList(),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -242,9 +251,7 @@ class DetailContent extends StatelessWidget {
                 ),
               );
             },
-            // initialChildSize: 0.5,
             minChildSize: 0.25,
-            // maxChildSize: 1.0,
           ),
         ),
         Padding(
@@ -275,16 +282,5 @@ class DetailContent extends StatelessWidget {
     }
 
     return result.substring(0, result.length - 2);
-  }
-
-  String _showDuration(int runtime) {
-    final int hours = runtime ~/ 60;
-    final int minutes = runtime % 60;
-
-    if (hours > 0) {
-      return '${hours}h ${minutes}m';
-    } else {
-      return '${minutes}m';
-    }
   }
 }

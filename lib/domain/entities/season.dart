@@ -1,4 +1,3 @@
-// /domain/entities/season.dart
 import 'package:equatable/equatable.dart';
 
 class Season extends Equatable {
