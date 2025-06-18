@@ -36,7 +36,7 @@ class TvSeriesModel extends Equatable {
   final int voteCount;
 
   factory TvSeriesModel.fromJson(Map<String, dynamic> json) => TvSeriesModel(
-    adult: json["adult"] ?? false, 
+    adult: json["adult"] ?? false,
     backdropPath: json["backdrop_path"],
     genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
     id: json["id"],

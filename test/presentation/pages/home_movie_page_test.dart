@@ -11,7 +11,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 
-import '../../dummy_data/dummy_objects.dart';
 import 'home_movie_page_test.mocks.dart';
 
 @GenerateMocks([MovieListNotifier, MovieDetailNotifier])

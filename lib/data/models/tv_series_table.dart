@@ -32,7 +32,7 @@ class TvSeriesTable extends Equatable {
 
   TvSeriesTable copyWith({
     int? id,
-    String? name,  
+    String? name,
     String? posterPath,
     String? overview,
   }) => TvSeriesTable(

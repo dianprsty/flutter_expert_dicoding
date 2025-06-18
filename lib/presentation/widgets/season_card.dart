@@ -25,9 +25,8 @@ class SeasonCard extends StatelessWidget {
                 width: 100,
                 height: 150,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Center(
-                  child: CircularProgressIndicator(),
-                ),
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             )
