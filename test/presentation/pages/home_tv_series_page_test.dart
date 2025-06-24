@@ -1,37 +1,28 @@
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/presentation/bloc/tv_series/home/home_tv_series_bloc.dart';
 import 'package:ditonton/presentation/pages/home_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv_series_detail_page.dart';
-import 'package:ditonton/presentation/provider/tv_series/tv_series_detail_notifier.dart';
-import 'package:ditonton/presentation/provider/tv_series/tv_series_list_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
 
 import 'home_tv_series_page_test.mocks.dart';
 
-@GenerateMocks([TvSeriesListNotifier, TvSeriesDetailNotifier])
+@GenerateMocks([HomeTvSeriesBloc])
 void main() {
-  late MockTvSeriesListNotifier mockNotifier;
-  late MockTvSeriesDetailNotifier mockDetailNotifier;
+  late MockHomeTvSeriesBloc mockBloc;
 
   setUp(() {
-    mockNotifier = MockTvSeriesListNotifier();
-    mockDetailNotifier = MockTvSeriesDetailNotifier();
+    mockBloc = MockHomeTvSeriesBloc();
+    when(mockBloc.stream).thenAnswer((_) => Stream.value(HomeTvSeriesState()));
   });
 
   Widget _makeTestableWidget(Widget body) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<TvSeriesListNotifier>.value(
-          value: mockNotifier,
-        ),
-        ChangeNotifierProvider<TvSeriesDetailNotifier>.value(
-          value: mockDetailNotifier,
-        ),
-      ],
+    return BlocProvider<HomeTvSeriesBloc>.value(
+      value: mockBloc,
       child: MaterialApp(
         home: body,
         onGenerateRoute: (RouteSettings settings) {
@@ -59,9 +50,11 @@ void main() {
   testWidgets('Page should display center progress bar when loading', (
     WidgetTester tester,
   ) async {
-    when(mockNotifier.nowPlayingState).thenReturn(RequestState.Loading);
-    when(mockNotifier.popularTvSeriesState).thenReturn(RequestState.Loading);
-    when(mockNotifier.topRatedTvSeriesState).thenReturn(RequestState.Loading);
+    when(mockBloc.state).thenReturn(HomeTvSeriesState(
+      onTheAirState: RequestState.Loading,
+      popularState: RequestState.Loading,
+      topRatedState: RequestState.Loading,
+    ));
 
     final progressBarFinder = find.byType(CircularProgressIndicator);
 
@@ -73,12 +66,14 @@ void main() {
   testWidgets('Page should display ListView when data is loaded', (
     WidgetTester tester,
   ) async {
-    when(mockNotifier.nowPlayingState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.popularTvSeriesState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.topRatedTvSeriesState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.nowPlayingTvSeries).thenReturn(<TvSeries>[]);
-    when(mockNotifier.popularTvSeries).thenReturn(<TvSeries>[]);
-    when(mockNotifier.topRatedTvSeries).thenReturn(<TvSeries>[]);
+    when(mockBloc.state).thenReturn(HomeTvSeriesState(
+      onTheAirState: RequestState.Loaded,
+      popularState: RequestState.Loaded,
+      topRatedState: RequestState.Loaded,
+      onTheAirTvSeries: <TvSeries>[],
+      popularTvSeries: <TvSeries>[],
+      topRatedTvSeries: <TvSeries>[],
+    ));
 
     final listViewFinder = find.byType(ListView);
 
@@ -90,12 +85,14 @@ void main() {
   testWidgets('Page should display text with message when Error', (
     WidgetTester tester,
   ) async {
-    when(mockNotifier.nowPlayingState).thenReturn(RequestState.Error);
-    when(mockNotifier.popularTvSeriesState).thenReturn(RequestState.Error);
-    when(mockNotifier.topRatedTvSeriesState).thenReturn(RequestState.Error);
-    when(mockNotifier.message).thenReturn('Error message');
+    when(mockBloc.state).thenReturn(HomeTvSeriesState(
+      onTheAirState: RequestState.Error,
+      popularState: RequestState.Error,
+      topRatedState: RequestState.Error,
+      message: 'Error message',
+    ));
 
-    final textFinder = find.text('Failed');
+    final textFinder = find.text('Failed: Error message');
 
     await tester.pumpWidget(_makeTestableWidget(HomeTvSeriesPage()));
 

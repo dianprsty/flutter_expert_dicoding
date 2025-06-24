@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/presentation/provider/movie/watchlist_movie_notifier.dart';
-import 'package:ditonton/presentation/provider/tv_series/watchlist_tv_series_notifier.dart';
+import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movie_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_series/watchlist/watchlist_tv_series_bloc.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:ditonton/presentation/widgets/tv_series_card_list.dart';
 
@@ -21,18 +21,14 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => Provider.of<WatchlistMovieNotifier>(
-        context,
-        listen: false,
-      ).fetchWatchlistMovies(),
-    );
-    Future.microtask(
-      () => Provider.of<WatchlistTvSeriesNotifier>(
-        context,
-        listen: false,
-      ).fetchWatchlistTvSeries(),
-    );
+    Future.microtask(() {
+      context.read<WatchlistMovieBloc>().add(
+        WatchlistMovieEvent.fetchWatchlistMovies(),
+      );
+      context.read<WatchlistTvSeriesBloc>().add(
+        WatchlistTvSeriesEvent.fetchWatchlistTvSeries(),
+      );
+    });
   }
 
   @override
@@ -42,14 +38,12 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
   }
 
   void didPopNext() {
-    Provider.of<WatchlistMovieNotifier>(
-      context,
-      listen: false,
-    ).fetchWatchlistMovies();
-    Provider.of<WatchlistTvSeriesNotifier>(
-      context,
-      listen: false,
-    ).fetchWatchlistTvSeries();
+    context.read<WatchlistMovieBloc>().add(
+      WatchlistMovieEvent.fetchWatchlistMovies(),
+    );
+    context.read<WatchlistTvSeriesBloc>().add(
+      WatchlistTvSeriesEvent.fetchWatchlistTvSeries(),
+    );
   }
 
   @override
@@ -71,24 +65,25 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Consumer<WatchlistTvSeriesNotifier>(
-                builder: (context, data, child) {
-                  if (data.watchlistState == RequestState.Loading) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (data.watchlistState == RequestState.Loaded) {
-                    return data.watchlistTvSeries.length > 0
+              child: BlocBuilder<WatchlistTvSeriesBloc, WatchlistTvSeriesState>(
+                builder: (context, state) {
+                  if (state.requestState == RequestState.Loading) {
+                    return Center(key: Key('tv_series_loading'), child: CircularProgressIndicator());
+                  } else if (state.requestState == RequestState.Loaded) {
+                    return state.watchlistTvSeries.isNotEmpty
                         ? ListView.builder(
+                            key: Key('tv_series_list'),
                             itemBuilder: (context, index) {
-                              final tvSeries = data.watchlistTvSeries[index];
+                              final tvSeries = state.watchlistTvSeries[index];
                               return TvSeriesCard(tvSeries);
                             },
-                            itemCount: data.watchlistTvSeries.length,
+                            itemCount: state.watchlistTvSeries.length,
                           )
-                        : Center(child: Text('No Watchlist Tv Series'));
+                        : Center(key: Key('empty_tv_series_message'), child: Text('No Watchlist Tv Series'));
                   } else {
                     return Center(
                       key: Key('error_message'),
-                      child: Text(data.message),
+                      child: Text(state.message),
                     );
                   }
                 },
@@ -96,24 +91,25 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Consumer<WatchlistMovieNotifier>(
-                builder: (context, data, child) {
-                  if (data.watchlistState == RequestState.Loading) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (data.watchlistState == RequestState.Loaded) {
-                    return data.watchlistMovies.length > 0
+              child: BlocBuilder<WatchlistMovieBloc, WatchlistMovieState>(
+                builder: (context, state) {
+                  if (state.requestState == RequestState.Loading) {
+                    return Center(key: Key('movie_loading'), child: CircularProgressIndicator());
+                  } else if (state.requestState == RequestState.Loaded) {
+                    return state.watchlistMovies.isNotEmpty
                         ? ListView.builder(
+                            key: Key('movie_list'),
                             itemBuilder: (context, index) {
-                              final movie = data.watchlistMovies[index];
+                              final movie = state.watchlistMovies[index];
                               return MovieCard(movie);
                             },
-                            itemCount: data.watchlistMovies.length,
+                            itemCount: state.watchlistMovies.length,
                           )
-                        : Center(child: Text('No Watchlist Movies'));
+                        : Center(key: Key('empty_movie_message'), child: Text('No Watchlist Movies'));
                   } else {
                     return Center(
                       key: Key('error_message'),
-                      child: Text(data.message),
+                      child: Text(state.message),
                     );
                   }
                 },

@@ -1,35 +1,35 @@
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
+import 'package:ditonton/presentation/bloc/tv_series/search/search_tv_series_bloc.dart';
 import 'package:ditonton/presentation/pages/search_tv_series_page.dart';
-import 'package:ditonton/presentation/provider/tv_series/tv_series_search_notifier.dart';
+import 'package:ditonton/presentation/widgets/tv_series_card_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
 
 import 'search_tv_series_page_test.mocks.dart';
 
-@GenerateMocks([TvSeriesSearchNotifier])
+@GenerateMocks([SearchTvSeriesBloc])
 void main() {
-  late MockTvSeriesSearchNotifier mockNotifier;
+  late MockSearchTvSeriesBloc mockBloc;
 
   setUp(() {
-    mockNotifier = MockTvSeriesSearchNotifier();
+    mockBloc = MockSearchTvSeriesBloc();
+    when(mockBloc.state).thenReturn(SearchTvSeriesState());
+    when(mockBloc.stream).thenAnswer((_) => Stream.value(SearchTvSeriesState()));
   });
 
   Widget _makeTestableWidget(Widget body) {
-    return ChangeNotifierProvider<TvSeriesSearchNotifier>.value(
-      value: mockNotifier,
+    return BlocProvider<SearchTvSeriesBloc>.value(
+      value: mockBloc,
       child: MaterialApp(home: body),
     );
   }
 
   testWidgets('Page should display TextField and search button',
       (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Empty);
-    when(mockNotifier.searchResult).thenReturn(<TvSeries>[]);
-
     await tester.pumpWidget(_makeTestableWidget(SearchTvSeriesPage()));
 
     final textFieldFinder = find.byType(TextField);
@@ -39,38 +39,67 @@ void main() {
     expect(searchIconFinder, findsOneWidget);
   });
 
-  testWidgets('Page should display progress bar when loading',
+  testWidgets('Page should display CircularProgressIndicator when loading',
       (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Loading);
-    when(mockNotifier.searchResult).thenReturn(<TvSeries>[]);
+    when(mockBloc.state).thenReturn(SearchTvSeriesState(
+      state: RequestState.Loading,
+    ));
 
     await tester.pumpWidget(_makeTestableWidget(SearchTvSeriesPage()));
 
-    final progressBarFinder = find.byType(CircularProgressIndicator);
-    expect(progressBarFinder, findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
   testWidgets('Page should display ListView when data is loaded',
       (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Loaded);
-    when(mockNotifier.searchResult).thenReturn(<TvSeries>[]);
+    final tTvSeries = TvSeries(
+      adult: false,
+      backdropPath: 'backdropPath',
+      genreIds: [1, 2, 3],
+      id: 1,
+      originCountry: ['US'],
+      originalLanguage: 'en',
+      originalName: 'originalName',
+      overview: 'overview',
+      popularity: 1.0,
+      posterPath: 'posterPath',
+      firstAirDate: 'firstAirDate',
+      name: 'name',
+      voteAverage: 1.0,
+      voteCount: 1,
+    );
+    final tTvSeriesList = <TvSeries>[tTvSeries];
+
+    when(mockBloc.state).thenReturn(SearchTvSeriesState(
+      state: RequestState.Loaded,
+      searchResult: tTvSeriesList,
+    ));
 
     await tester.pumpWidget(_makeTestableWidget(SearchTvSeriesPage()));
 
-    final listViewFinder = find.byType(ListView);
-    expect(listViewFinder, findsOneWidget);
+    expect(find.byType(ListView), findsOneWidget);
+    expect(find.byType(TvSeriesCard), findsOneWidget);
   });
 
-  testWidgets('TextField should trigger search when submitted',
+  testWidgets('Page should display text with message when Error',
       (WidgetTester tester) async {
-    when(mockNotifier.state).thenReturn(RequestState.Loaded);
-    when(mockNotifier.searchResult).thenReturn(<TvSeries>[]);
+    when(mockBloc.state).thenReturn(SearchTvSeriesState(
+      state: RequestState.Error,
+      message: 'Error message',
+    ));
 
     await tester.pumpWidget(_makeTestableWidget(SearchTvSeriesPage()));
 
-    await tester.enterText(find.byType(TextField), 'frieren');
-    await tester.testTextInput.receiveAction(TextInputAction.search);
-    
-    verify(mockNotifier.fetchTvSeriesSearch('frieren'));
+    expect(find.text('Error message'), findsOneWidget);
+  });
+
+  testWidgets('TextField should trigger search when text is entered',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(_makeTestableWidget(SearchTvSeriesPage()));
+
+    await tester.enterText(find.byType(TextField), 'test query');
+    await tester.pump();
+
+    verify(mockBloc.add(SearchTvSeriesEvent.onQueryChanged('test query')));
   });
 }
