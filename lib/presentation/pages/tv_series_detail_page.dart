@@ -108,15 +108,20 @@ class DetailContent extends StatelessWidget {
                                   );
                                 } else {
                                   context.read<TvSeriesDetailBloc>().add(
-                                    TvSeriesDetailEvent.removeFromWatchlist(tvSeries),
+                                    TvSeriesDetailEvent.removeFromWatchlist(
+                                      tvSeries,
+                                    ),
                                   );
                                 }
 
-                                final state = context.read<TvSeriesDetailBloc>().state;
+                                final state = context
+                                    .read<TvSeriesDetailBloc>()
+                                    .state;
                                 final message = state.watchlistMessage;
 
                                 if (message.isNotEmpty) {
-                                  if (state.isAddedToWatchlist != isAddedWatchlist) {
+                                  if (state.isAddedToWatchlist !=
+                                      isAddedWatchlist) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text(message)),
                                     );
@@ -161,7 +166,10 @@ class DetailContent extends StatelessWidget {
                             Text(tvSeries.overview),
                             SizedBox(height: 16),
                             Text('Recommendations', style: kHeading6),
-                            BlocBuilder<TvSeriesDetailBloc, TvSeriesDetailState>(
+                            BlocBuilder<
+                              TvSeriesDetailBloc,
+                              TvSeriesDetailState
+                            >(
                               builder: (context, state) {
                                 if (state.recommendationState ==
                                     RequestState.Loading) {

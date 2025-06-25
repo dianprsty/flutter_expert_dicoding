@@ -1,38 +1,27 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/movie.dart';
+import 'package:ditonton/presentation/bloc/movie/home/home_movie_bloc.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
-import 'package:ditonton/presentation/provider/movie/movie_detail_notifier.dart';
-import 'package:ditonton/presentation/provider/movie/movie_list_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
+import 'package:mocktail/mocktail.dart';
 
-import 'home_movie_page_test.mocks.dart';
+class MockHomeMovieBloc extends MockBloc<HomeMovieEvent, HomeMovieState> implements HomeMovieBloc {}
 
-@GenerateMocks([MovieListNotifier, MovieDetailNotifier])
 void main() {
-  late MockMovieListNotifier mockNotifier;
-  late MockMovieDetailNotifier mockDetailNotifier;
+  late MockHomeMovieBloc mockHomeMovieBloc;
 
   setUp(() {
-    mockNotifier = MockMovieListNotifier();
-    mockDetailNotifier = MockMovieDetailNotifier();
+    mockHomeMovieBloc = MockHomeMovieBloc();
   });
 
   Widget _makeTestableWidget(Widget body) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<MovieListNotifier>.value(
-          value: mockNotifier,
-        ),
-        ChangeNotifierProvider<MovieDetailNotifier>.value(
-          value: mockDetailNotifier,
-        ),
-      ],
+    return BlocProvider<HomeMovieBloc>.value(
+      value: mockHomeMovieBloc,
       child: MaterialApp(
         home: body,
         onGenerateRoute: (RouteSettings settings) {
@@ -60,9 +49,11 @@ void main() {
   testWidgets('Page should display center progress bar when loading', (
     WidgetTester tester,
   ) async {
-    when(mockNotifier.nowPlayingState).thenReturn(RequestState.Loading);
-    when(mockNotifier.popularMoviesState).thenReturn(RequestState.Loading);
-    when(mockNotifier.topRatedMoviesState).thenReturn(RequestState.Loading);
+    when(() => mockHomeMovieBloc.state).thenReturn(HomeMovieState(
+      nowPlayingState: RequestState.Loading,
+      popularState: RequestState.Loading,
+      topRatedState: RequestState.Loading,
+    ));
 
     final progressBarFinder = find.byType(CircularProgressIndicator);
 
@@ -74,12 +65,14 @@ void main() {
   testWidgets('Page should display ListView when data is loaded', (
     WidgetTester tester,
   ) async {
-    when(mockNotifier.nowPlayingState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.popularMoviesState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.topRatedMoviesState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.nowPlayingMovies).thenReturn(<Movie>[]);
-    when(mockNotifier.popularMovies).thenReturn(<Movie>[]);
-    when(mockNotifier.topRatedMovies).thenReturn(<Movie>[]);
+    when(() => mockHomeMovieBloc.state).thenReturn(HomeMovieState(
+      nowPlayingState: RequestState.Loaded,
+      popularState: RequestState.Loaded,
+      topRatedState: RequestState.Loaded,
+      nowPlayingMovies: <Movie>[],
+      popularMovies: <Movie>[],
+      topRatedMovies: <Movie>[],
+    ));
 
     final listViewFinder = find.byType(ListView);
 
@@ -91,10 +84,12 @@ void main() {
   testWidgets('Page should display text with message when Error', (
     WidgetTester tester,
   ) async {
-    when(mockNotifier.nowPlayingState).thenReturn(RequestState.Error);
-    when(mockNotifier.popularMoviesState).thenReturn(RequestState.Error);
-    when(mockNotifier.topRatedMoviesState).thenReturn(RequestState.Error);
-    when(mockNotifier.message).thenReturn('Error message');
+    when(() => mockHomeMovieBloc.state).thenReturn(HomeMovieState(
+      nowPlayingState: RequestState.Error,
+      popularState: RequestState.Error,
+      topRatedState: RequestState.Error,
+      message: 'Error message',
+    ));
 
     final textFinder = find.text('Failed');
 
@@ -122,12 +117,14 @@ void main() {
       voteCount: 1,
     );
 
-    when(mockNotifier.nowPlayingState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.popularMoviesState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.topRatedMoviesState).thenReturn(RequestState.Loaded);
-    when(mockNotifier.nowPlayingMovies).thenReturn([testMovie]);
-    when(mockNotifier.popularMovies).thenReturn(<Movie>[]);
-    when(mockNotifier.topRatedMovies).thenReturn(<Movie>[]);
+    when(() => mockHomeMovieBloc.state).thenReturn(HomeMovieState(
+      nowPlayingState: RequestState.Loaded,
+      popularState: RequestState.Loaded,
+      topRatedState: RequestState.Loaded,
+      nowPlayingMovies: [testMovie],
+      popularMovies: <Movie>[],
+      topRatedMovies: <Movie>[],
+    ));
 
     await tester.pumpWidget(_makeTestableWidget(HomeMoviePage()));
 

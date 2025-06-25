@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/movie.dart';
+import 'package:ditonton/presentation/bloc/movie/home/home_movie_bloc.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/popular_movies_page.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
 import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
-import 'package:ditonton/presentation/provider/movie/movie_list_notifier.dart';
 import 'package:ditonton/presentation/widgets/app_drawer.dart';
 
 class HomeMoviePage extends StatefulWidget {
@@ -23,12 +23,11 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => Provider.of<MovieListNotifier>(context, listen: false)
-        ..fetchNowPlayingMovies()
-        ..fetchPopularMovies()
-        ..fetchTopRatedMovies(),
-    );
+    Future.microtask(() {
+      context.read<HomeMovieBloc>().add(const HomeMovieEvent.fetchNowPlayingMovies());
+      context.read<HomeMovieBloc>().add(const HomeMovieEvent.fetchPopularMovies());
+      context.read<HomeMovieBloc>().add(const HomeMovieEvent.fetchTopRatedMovies());
+    });
   }
 
   @override
@@ -53,13 +52,13 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Now Playing', style: kHeading6),
-              Consumer<MovieListNotifier>(
-                builder: (context, data, child) {
-                  final state = data.nowPlayingState;
-                  if (state == RequestState.Loading) {
+              BlocBuilder<HomeMovieBloc, HomeMovieState>(
+                builder: (context, state) {
+                  final nowPlayingState = state.nowPlayingState;
+                  if (nowPlayingState == RequestState.Loading) {
                     return Center(child: CircularProgressIndicator());
-                  } else if (state == RequestState.Loaded) {
-                    return MovieList(data.nowPlayingMovies);
+                  } else if (nowPlayingState == RequestState.Loaded) {
+                    return MovieList(state.nowPlayingMovies);
                   } else {
                     return Text('Failed');
                   }
@@ -70,13 +69,13 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 onTap: () =>
                     Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
               ),
-              Consumer<MovieListNotifier>(
-                builder: (context, data, child) {
-                  final state = data.popularMoviesState;
-                  if (state == RequestState.Loading) {
+              BlocBuilder<HomeMovieBloc, HomeMovieState>(
+                builder: (context, state) {
+                  final popularState = state.popularState;
+                  if (popularState == RequestState.Loading) {
                     return Center(child: CircularProgressIndicator());
-                  } else if (state == RequestState.Loaded) {
-                    return MovieList(data.popularMovies);
+                  } else if (popularState == RequestState.Loaded) {
+                    return MovieList(state.popularMovies);
                   } else {
                     return Text('Failed');
                   }
@@ -87,13 +86,13 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 onTap: () =>
                     Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME),
               ),
-              Consumer<MovieListNotifier>(
-                builder: (context, data, child) {
-                  final state = data.topRatedMoviesState;
-                  if (state == RequestState.Loading) {
+              BlocBuilder<HomeMovieBloc, HomeMovieState>(
+                builder: (context, state) {
+                  final topRatedState = state.topRatedState;
+                  if (topRatedState == RequestState.Loading) {
                     return Center(child: CircularProgressIndicator());
-                  } else if (state == RequestState.Loaded) {
-                    return MovieList(data.topRatedMovies);
+                  } else if (topRatedState == RequestState.Loaded) {
+                    return MovieList(state.topRatedMovies);
                   } else {
                     return Text('Failed');
                   }
