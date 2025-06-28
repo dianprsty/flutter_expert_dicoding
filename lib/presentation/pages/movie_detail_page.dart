@@ -126,6 +126,27 @@ class DetailContent extends StatelessWidget {
                                     ),
                                   );
                                 }
+
+                                final message = context
+                                    .read<MovieDetailBloc>()
+                                    .state
+                                    .watchlistMessage;
+
+                                if (message.isNotEmpty &&
+                                    message !=
+                                        MovieDetailBloc
+                                            .watchlistAddSuccessMessage &&
+                                    message !=
+                                        MovieDetailBloc
+                                            .watchlistRemoveSuccessMessage)
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: Text(message),
+                                      );
+                                    },
+                                  );
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,

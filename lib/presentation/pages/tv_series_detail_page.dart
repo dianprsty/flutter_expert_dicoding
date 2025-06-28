@@ -129,6 +129,28 @@ class DetailContent extends StatelessWidget {
                                     ),
                                   );
                                 }
+
+                                final state = context
+                                    .read<TvSeriesDetailBloc>()
+                                    .state;
+                                final message = state.watchlistMessage;
+
+                                if (message.isNotEmpty &&
+                                    message !=
+                                        TvSeriesDetailBloc
+                                            .watchlistAddSuccessMessage &&
+                                    message !=
+                                        TvSeriesDetailBloc
+                                            .watchlistRemoveSuccessMessage) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: Text(message),
+                                      );
+                                    },
+                                  );
+                                }
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
