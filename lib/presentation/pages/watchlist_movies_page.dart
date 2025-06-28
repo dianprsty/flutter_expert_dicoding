@@ -68,7 +68,10 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
               child: BlocBuilder<WatchlistTvSeriesBloc, WatchlistTvSeriesState>(
                 builder: (context, state) {
                   if (state.requestState == RequestState.Loading) {
-                    return Center(key: Key('tv_series_loading'), child: CircularProgressIndicator());
+                    return Center(
+                      key: Key('tv_series_loading'),
+                      child: CircularProgressIndicator(),
+                    );
                   } else if (state.requestState == RequestState.Loaded) {
                     return state.watchlistTvSeries.isNotEmpty
                         ? ListView.builder(
@@ -79,7 +82,10 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                             },
                             itemCount: state.watchlistTvSeries.length,
                           )
-                        : Center(key: Key('empty_tv_series_message'), child: Text('No Watchlist Tv Series'));
+                        : Center(
+                            key: Key('empty_tv_series_message'),
+                            child: Text('No Watchlist Tv Series'),
+                          );
                   } else {
                     return Center(
                       key: Key('error_message'),
@@ -94,7 +100,10 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
               child: BlocBuilder<WatchlistMovieBloc, WatchlistMovieState>(
                 builder: (context, state) {
                   if (state.requestState == RequestState.Loading) {
-                    return Center(key: Key('movie_loading'), child: CircularProgressIndicator());
+                    return Center(
+                      key: Key('movie_loading'),
+                      child: CircularProgressIndicator(),
+                    );
                   } else if (state.requestState == RequestState.Loaded) {
                     return state.watchlistMovies.isNotEmpty
                         ? ListView.builder(
@@ -105,7 +114,10 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
                             },
                             itemCount: state.watchlistMovies.length,
                           )
-                        : Center(key: Key('empty_movie_message'), child: Text('No Watchlist Movies'));
+                        : Center(
+                            key: Key('empty_movie_message'),
+                            child: Text('No Watchlist Movies'),
+                          );
                   } else {
                     return Center(
                       key: Key('error_message'),

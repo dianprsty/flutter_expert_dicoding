@@ -13,8 +13,8 @@ class WatchlistTvSeriesBloc
   final GetWatchlistTvSeries _getWatchlistTvSeries;
 
   WatchlistTvSeriesBloc({required GetWatchlistTvSeries getWatchlistTvSeries})
-      : _getWatchlistTvSeries = getWatchlistTvSeries,
-        super(WatchlistTvSeriesState()) {
+    : _getWatchlistTvSeries = getWatchlistTvSeries,
+      super(WatchlistTvSeriesState()) {
     on<_FetchWatchlistTvSeries>(_fetchWatchlistTvSeries);
   }
 
@@ -25,16 +25,20 @@ class WatchlistTvSeriesBloc
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          requestState: RequestState.Error,
-          message: failure.message,
-        ));
+        emit(
+          state.copyWith(
+            requestState: RequestState.Error,
+            message: failure.message,
+          ),
+        );
       },
       (tvSeriesData) {
-        emit(state.copyWith(
-          requestState: RequestState.Loaded,
-          watchlistTvSeries: tvSeriesData,
-        ));
+        emit(
+          state.copyWith(
+            requestState: RequestState.Loaded,
+            watchlistTvSeries: tvSeriesData,
+          ),
+        );
       },
     );
   }

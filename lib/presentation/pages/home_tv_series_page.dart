@@ -25,9 +25,15 @@ class _HomeTvSeriesPageState extends State<HomeTvSeriesPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<HomeTvSeriesBloc>().add(const HomeTvSeriesEvent.fetchOnTheAirTvSeries());
-      context.read<HomeTvSeriesBloc>().add(const HomeTvSeriesEvent.fetchPopularTvSeries());
-      context.read<HomeTvSeriesBloc>().add(const HomeTvSeriesEvent.fetchTopRatedTvSeries());
+      context.read<HomeTvSeriesBloc>().add(
+        const HomeTvSeriesEvent.fetchOnTheAirTvSeries(),
+      );
+      context.read<HomeTvSeriesBloc>().add(
+        const HomeTvSeriesEvent.fetchPopularTvSeries(),
+      );
+      context.read<HomeTvSeriesBloc>().add(
+        const HomeTvSeriesEvent.fetchTopRatedTvSeries(),
+      );
     });
   }
 

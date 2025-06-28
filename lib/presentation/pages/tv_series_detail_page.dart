@@ -106,35 +106,28 @@ class DetailContent extends StatelessWidget {
                                   context.read<TvSeriesDetailBloc>().add(
                                     TvSeriesDetailEvent.addWatchlist(tvSeries),
                                   );
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        TvSeriesDetailBloc
+                                            .watchlistAddSuccessMessage,
+                                      ),
+                                    ),
+                                  );
                                 } else {
                                   context.read<TvSeriesDetailBloc>().add(
                                     TvSeriesDetailEvent.removeFromWatchlist(
                                       tvSeries,
                                     ),
                                   );
-                                }
-
-                                final state = context
-                                    .read<TvSeriesDetailBloc>()
-                                    .state;
-                                final message = state.watchlistMessage;
-
-                                if (message.isNotEmpty) {
-                                  if (state.isAddedToWatchlist !=
-                                      isAddedWatchlist) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(message)),
-                                    );
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(message),
-                                        );
-                                      },
-                                    );
-                                  }
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        TvSeriesDetailBloc
+                                            .watchlistAddSuccessMessage,
+                                      ),
+                                    ),
+                                  );
                                 }
                               },
                               child: Row(

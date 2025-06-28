@@ -22,8 +22,8 @@ class SearchTvSeriesPage extends StatelessWidget {
             TextField(
               onChanged: (query) {
                 context.read<SearchTvSeriesBloc>().add(
-                      SearchTvSeriesEvent.onQueryChanged(query),
-                    );
+                  SearchTvSeriesEvent.onQueryChanged(query),
+                );
               },
               decoration: InputDecoration(
                 hintText: 'Search title',
@@ -51,11 +51,7 @@ class SearchTvSeriesPage extends StatelessWidget {
                     ),
                   );
                 } else if (state.state == RequestState.Error) {
-                  return Expanded(
-                    child: Center(
-                      child: Text(state.message),
-                    ),
-                  );
+                  return Expanded(child: Center(child: Text(state.message)));
                 } else {
                   return Expanded(child: Container());
                 }

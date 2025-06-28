@@ -15,9 +15,12 @@ class SearchTvSeriesBloc
   final SearchTvSeries _searchTvSeries;
 
   SearchTvSeriesBloc({required SearchTvSeries searchTvSeries})
-      : _searchTvSeries = searchTvSeries,
-        super(SearchTvSeriesState()) {
-    on<_OnQueryChanged>(_onQueryChanged, transformer: _debounce(const Duration(milliseconds: 500)));
+    : _searchTvSeries = searchTvSeries,
+      super(SearchTvSeriesState()) {
+    on<_OnQueryChanged>(
+      _onQueryChanged,
+      transformer: _debounce(const Duration(milliseconds: 500)),
+    );
   }
 
   EventTransformer<T> _debounce<T>(Duration duration) {
@@ -26,23 +29,19 @@ class SearchTvSeriesBloc
 
   void _onQueryChanged(_OnQueryChanged event, emit) async {
     final query = event.query;
-    
+
     emit(state.copyWith(state: RequestState.Loading));
-    
+
     final result = await _searchTvSeries.execute(query);
-    
+
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          state: RequestState.Error,
-          message: failure.message,
-        ));
+        emit(
+          state.copyWith(state: RequestState.Error, message: failure.message),
+        );
       },
       (data) {
-        emit(state.copyWith(
-          state: RequestState.Loaded,
-          searchResult: data,
-        ));
+        emit(state.copyWith(state: RequestState.Loaded, searchResult: data));
       },
     );
   }

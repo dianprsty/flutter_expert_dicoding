@@ -9,8 +9,7 @@ part 'popular_movie_event.dart';
 part 'popular_movie_state.dart';
 part 'popular_movie_bloc.freezed.dart';
 
-class PopularMovieBloc
-    extends Bloc<PopularMovieEvent, PopularMovieState> {
+class PopularMovieBloc extends Bloc<PopularMovieEvent, PopularMovieState> {
   final GetPopularMovies _getPopularMovies;
   PopularMovieBloc({required GetPopularMovies getPopularMovies})
     : _getPopularMovies = getPopularMovies,
@@ -34,10 +33,7 @@ class PopularMovieBloc
       },
       (moviesData) {
         emit(
-          state.copyWith(
-            requestState: RequestState.Loaded,
-            movies: moviesData,
-          ),
+          state.copyWith(requestState: RequestState.Loaded, movies: moviesData),
         );
       },
     );

@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/domain/entities/tv_series_detail.dart';
@@ -7,7 +9,6 @@ import 'package:ditonton/domain/usecases/tv_series/get_tv_series_recommendations
 import 'package:ditonton/domain/usecases/tv_series/get_watchlist_tv_status.dart';
 import 'package:ditonton/domain/usecases/tv_series/remove_watchlist_tv.dart';
 import 'package:ditonton/domain/usecases/tv_series/save_watchlist_tv.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'tv_series_detail_event.dart';
 part 'tv_series_detail_state.dart';
@@ -21,19 +22,21 @@ class TvSeriesDetailBloc
   final SaveWatchlistTv _saveWatchlist;
   final RemoveWatchlistTv _removeWatchlist;
 
+  static const watchlistAddSuccessMessage = 'Added to Watchlist';
+  static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';
+
   TvSeriesDetailBloc({
     required GetTvSeriesDetail getTvSeriesDetail,
     required GetTvSeriesRecommendations getTvSeriesRecommendations,
     required GetWatchlistTvStatus getWatchListStatus,
     required SaveWatchlistTv saveWatchlist,
     required RemoveWatchlistTv removeWatchlist,
-  })
-      : _getTvSeriesDetail = getTvSeriesDetail,
-        _getTvSeriesRecommendations = getTvSeriesRecommendations,
-        _getWatchListStatus = getWatchListStatus,
-        _saveWatchlist = saveWatchlist,
-        _removeWatchlist = removeWatchlist,
-        super(TvSeriesDetailState()) {
+  }) : _getTvSeriesDetail = getTvSeriesDetail,
+       _getTvSeriesRecommendations = getTvSeriesRecommendations,
+       _getWatchListStatus = getWatchListStatus,
+       _saveWatchlist = saveWatchlist,
+       _removeWatchlist = removeWatchlist,
+       super(TvSeriesDetailState()) {
     on<_FetchTvSeriesDetail>(_fetchTvSeriesDetail);
     on<_AddWatchlist>(_addWatchlist);
     on<_RemoveFromWatchlist>(_removeFromWatchlist);
@@ -50,28 +53,34 @@ class TvSeriesDetailBloc
 
     detailResult.fold(
       (failure) {
-        emit(state.copyWith(
-          tvSeriesState: RequestState.Error,
-          message: failure.message,
-        ));
+        emit(
+          state.copyWith(
+            tvSeriesState: RequestState.Error,
+            message: failure.message,
+          ),
+        );
       },
       (tvSeries) {
         recommendationResult.fold(
           (failure) {
-            emit(state.copyWith(
-              tvSeriesState: RequestState.Loaded,
-              tvSeriesDetail: tvSeries,
-              recommendationState: RequestState.Error,
-              message: failure.message,
-            ));
+            emit(
+              state.copyWith(
+                tvSeriesState: RequestState.Loaded,
+                tvSeriesDetail: tvSeries,
+                recommendationState: RequestState.Error,
+                message: failure.message,
+              ),
+            );
           },
           (recommendations) {
-            emit(state.copyWith(
-              tvSeriesState: RequestState.Loaded,
-              tvSeriesDetail: tvSeries,
-              recommendationState: RequestState.Loaded,
-              tvSeriesRecommendations: recommendations,
-            ));
+            emit(
+              state.copyWith(
+                tvSeriesState: RequestState.Loaded,
+                tvSeriesDetail: tvSeries,
+                recommendationState: RequestState.Loaded,
+                tvSeriesRecommendations: recommendations,
+              ),
+            );
           },
         );
       },
@@ -86,10 +95,12 @@ class TvSeriesDetailBloc
         emit(state.copyWith(watchlistMessage: failure.message));
       },
       (successMessage) {
-        emit(state.copyWith(
-          watchlistMessage: successMessage,
-          isAddedToWatchlist: true,
-        ));
+        emit(
+          state.copyWith(
+            watchlistMessage: watchlistAddSuccessMessage,
+            isAddedToWatchlist: true,
+          ),
+        );
       },
     );
   }
@@ -102,10 +113,12 @@ class TvSeriesDetailBloc
         emit(state.copyWith(watchlistMessage: failure.message));
       },
       (successMessage) {
-        emit(state.copyWith(
-          watchlistMessage: successMessage,
-          isAddedToWatchlist: false,
-        ));
+        emit(
+          state.copyWith(
+            watchlistMessage: watchlistRemoveSuccessMessage,
+            isAddedToWatchlist: false,
+          ),
+        );
       },
     );
   }

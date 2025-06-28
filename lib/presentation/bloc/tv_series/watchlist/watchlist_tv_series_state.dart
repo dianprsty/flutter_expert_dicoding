@@ -7,6 +7,6 @@ abstract class WatchlistTvSeriesState with _$WatchlistTvSeriesState {
     @Default([]) List<TvSeries> watchlistTvSeries,
     @Default('') String message,
   }) = _WatchlistTvSeriesState;
-  
+
   factory WatchlistTvSeriesState.initial() => WatchlistTvSeriesState();
 }

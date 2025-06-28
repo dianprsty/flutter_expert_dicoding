@@ -24,9 +24,15 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<HomeMovieBloc>().add(const HomeMovieEvent.fetchNowPlayingMovies());
-      context.read<HomeMovieBloc>().add(const HomeMovieEvent.fetchPopularMovies());
-      context.read<HomeMovieBloc>().add(const HomeMovieEvent.fetchTopRatedMovies());
+      context.read<HomeMovieBloc>().add(
+        const HomeMovieEvent.fetchNowPlayingMovies(),
+      );
+      context.read<HomeMovieBloc>().add(
+        const HomeMovieEvent.fetchPopularMovies(),
+      );
+      context.read<HomeMovieBloc>().add(
+        const HomeMovieEvent.fetchTopRatedMovies(),
+      );
     });
   }
 

@@ -70,7 +70,6 @@ class DetailContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final state = context.watch<MovieDetailBloc>().state;
     return Stack(
       children: [
         CachedNetworkImage(
@@ -106,31 +105,25 @@ class DetailContent extends StatelessWidget {
                                   context.read<MovieDetailBloc>().add(
                                     MovieDetailEvent.addWatchlist(movie),
                                   );
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        MovieDetailBloc
+                                            .watchlistAddSuccessMessage,
+                                      ),
+                                    ),
+                                  );
                                 } else {
                                   context.read<MovieDetailBloc>().add(
                                     MovieDetailEvent.removeFromWatchlist(movie),
                                   );
-                                }
-
-                                final message = state.watchlistMessage;
-
-                                if (message ==
-                                        MovieDetailBloc
-                                            .watchlistAddSuccessMessage ||
-                                    message ==
-                                        MovieDetailBloc
-                                            .watchlistRemoveSuccessMessage) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(message)),
-                                  );
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        content: Text(message),
-                                      );
-                                    },
+                                    SnackBar(
+                                      content: Text(
+                                        MovieDetailBloc
+                                            .watchlistRemoveSuccessMessage,
+                                      ),
+                                    ),
                                   );
                                 }
                               },

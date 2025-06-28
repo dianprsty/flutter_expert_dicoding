@@ -8,13 +8,12 @@ part 'top_rated_movie_event.dart';
 part 'top_rated_movie_state.dart';
 part 'top_rated_movie_bloc.freezed.dart';
 
-class TopRatedMovieBloc
-    extends Bloc<TopRatedMovieEvent, TopRatedMovieState> {
+class TopRatedMovieBloc extends Bloc<TopRatedMovieEvent, TopRatedMovieState> {
   final GetTopRatedMovies _getTopRatedMovies;
 
   TopRatedMovieBloc({required GetTopRatedMovies getTopRatedMovies})
-      : _getTopRatedMovies = getTopRatedMovies,
-        super(TopRatedMovieState()) {
+    : _getTopRatedMovies = getTopRatedMovies,
+      super(TopRatedMovieState()) {
     on<_FetchTopRatedMovies>(_fetchTopRatedMovies);
   }
 
@@ -34,10 +33,7 @@ class TopRatedMovieBloc
       },
       (moviesData) {
         emit(
-          state.copyWith(
-            requestState: RequestState.Loaded,
-            movies: moviesData,
-          ),
+          state.copyWith(requestState: RequestState.Loaded, movies: moviesData),
         );
       },
     );

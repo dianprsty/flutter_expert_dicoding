@@ -10,14 +10,16 @@ part 'search_movie_event.dart';
 part 'search_movie_state.dart';
 part 'search_movie_bloc.freezed.dart';
 
-class SearchMovieBloc
-    extends Bloc<SearchMovieEvent, SearchMovieState> {
+class SearchMovieBloc extends Bloc<SearchMovieEvent, SearchMovieState> {
   final SearchMovies _searchMovies;
 
   SearchMovieBloc({required SearchMovies searchMovies})
-      : _searchMovies = searchMovies,
-        super(SearchMovieState()) {
-    on<_OnQueryChanged>(_onQueryChanged, transformer: _debounce(const Duration(milliseconds: 500)));
+    : _searchMovies = searchMovies,
+      super(SearchMovieState()) {
+    on<_OnQueryChanged>(
+      _onQueryChanged,
+      transformer: _debounce(const Duration(milliseconds: 500)),
+    );
   }
 
   EventTransformer<T> _debounce<T>(Duration duration) {
@@ -26,23 +28,19 @@ class SearchMovieBloc
 
   void _onQueryChanged(_OnQueryChanged event, emit) async {
     final query = event.query;
-    
+
     emit(state.copyWith(state: RequestState.Loading));
-    
+
     final result = await _searchMovies.execute(query);
-    
+
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          state: RequestState.Error,
-          message: failure.message,
-        ));
+        emit(
+          state.copyWith(state: RequestState.Error, message: failure.message),
+        );
       },
       (data) {
-        emit(state.copyWith(
-          state: RequestState.Loaded,
-          searchResult: data,
-        ));
+        emit(state.copyWith(state: RequestState.Loaded, searchResult: data));
       },
     );
   }

@@ -13,8 +13,8 @@ class TopRatedTvSeriesBloc
   final GetTopRatedTvSeries _getTopRatedTvSeries;
 
   TopRatedTvSeriesBloc({required GetTopRatedTvSeries getTopRatedTvSeries})
-      : _getTopRatedTvSeries = getTopRatedTvSeries,
-        super(TopRatedTvSeriesState()) {
+    : _getTopRatedTvSeries = getTopRatedTvSeries,
+      super(TopRatedTvSeriesState()) {
     on<_FetchTopRatedTvSeries>(_fetchTopRatedTvSeries);
   }
 

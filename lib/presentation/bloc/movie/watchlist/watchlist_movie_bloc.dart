@@ -13,20 +13,24 @@ class WatchlistMovieBloc
   final GetWatchlistMovies getWatchlistMovies;
 
   WatchlistMovieBloc({required this.getWatchlistMovies})
-      : super(WatchlistMovieState.initial()) {
+    : super(WatchlistMovieState.initial()) {
     on<_FetchWatchlistMovies>((event, emit) async {
       emit(state.copyWith(requestState: RequestState.Loading));
 
       final result = await getWatchlistMovies.execute();
       result.fold(
-        (failure) => emit(state.copyWith(
-          requestState: RequestState.Error,
-          message: failure.message,
-        )),
-        (moviesData) => emit(state.copyWith(
-          requestState: RequestState.Loaded,
-          watchlistMovies: moviesData,
-        )),
+        (failure) => emit(
+          state.copyWith(
+            requestState: RequestState.Error,
+            message: failure.message,
+          ),
+        ),
+        (moviesData) => emit(
+          state.copyWith(
+            requestState: RequestState.Loaded,
+            watchlistMovies: moviesData,
+          ),
+        ),
       );
     });
   }
