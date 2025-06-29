@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:ditonton/common/constants.dart';
+import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/domain/entities/season.dart';
 
 class SeasonCard extends StatelessWidget {
@@ -20,14 +23,24 @@ class SeasonCard extends StatelessWidget {
               borderRadius: const BorderRadius.horizontal(
                 left: Radius.circular(12),
               ),
-              child: CachedNetworkImage(
-                imageUrl: '$BASE_IMAGE_URL${season.posterPath}',
-                width: 100,
-                height: 150,
-                fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                    Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+              child: FutureBuilder(
+                future: getNetworkImage(
+                  path: season.posterPath ?? '',
+                  width: 100,
+                  height: 150,
+                ),
+                builder: (context, asyncSnapshot) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    child:
+                        asyncSnapshot.data ??
+                        SizedBox(
+                          width: 100,
+                          height: 150,
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                  );
+                },
               ),
             )
           else

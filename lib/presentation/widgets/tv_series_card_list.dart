@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:ditonton/common/constants.dart';
+import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/presentation/pages/tv_series_detail_page.dart';
 
@@ -54,15 +55,17 @@ class TvSeriesCard extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(left: 16, bottom: 16),
-              child: ClipRRect(
-                child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${tvSeries.posterPath}',
+              child: FutureBuilder(
+                future: getNetworkImage(
+                  path: tvSeries.posterPath ?? '',
                   width: 80,
-                  placeholder: (context, url) =>
-                      Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(8)),
+                builder: (context, asyncSnapshot) {
+                  return ClipRRect(
+                    child: asyncSnapshot.data ?? CircularProgressIndicator(),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  );
+                },
               ),
             ),
           ],

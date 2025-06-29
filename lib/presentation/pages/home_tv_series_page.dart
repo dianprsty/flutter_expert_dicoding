@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/presentation/bloc/tv_series/home/home_tv_series_bloc.dart';
 import 'package:ditonton/presentation/pages/on_the_air_tv_series_page.dart';
@@ -166,14 +166,24 @@ class TvSeriesList extends StatelessWidget {
                   arguments: tvSeries.id,
                 );
               },
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${tvSeries.posterPath}',
-                  placeholder: (context, url) =>
-                      Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+              child: FutureBuilder(
+                future: getNetworkImage(
+                  path: tvSeries.posterPath ?? '',
+                  width: 120,
+                  height: 160,
                 ),
+                builder: (context, asyncSnapshot) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    child:
+                        asyncSnapshot.data ??
+                        SizedBox(
+                          width: 120,
+                          height: 160,
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                  );
+                },
               ),
             ),
           );

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/presentation/bloc/movie/home/home_movie_bloc.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
@@ -153,14 +154,24 @@ class MovieList extends StatelessWidget {
                   arguments: movie.id,
                 );
               },
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-                child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
-                  placeholder: (context, url) =>
-                      Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+              child: FutureBuilder(
+                future: getNetworkImage(
+                  path: movie.posterPath ?? '',
+                  width: 120,
+                  height: 160,
                 ),
+                builder: (context, asyncSnapshot) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    child:
+                        asyncSnapshot.data ??
+                        SizedBox(
+                          width: 120,
+                          height: 160,
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                  );
+                },
               ),
             ),
           );

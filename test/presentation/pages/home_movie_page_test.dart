@@ -1,16 +1,19 @@
+import 'package:flutter/material.dart';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+
 import 'package:ditonton/common/state_enum.dart';
 import 'package:ditonton/domain/entities/movie.dart';
 import 'package:ditonton/presentation/bloc/movie/home/home_movie_bloc.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 
-class MockHomeMovieBloc extends MockBloc<HomeMovieEvent, HomeMovieState> implements HomeMovieBloc {}
+class MockHomeMovieBloc extends MockBloc<HomeMovieEvent, HomeMovieState>
+    implements HomeMovieBloc {}
 
 void main() {
   late MockHomeMovieBloc mockHomeMovieBloc;
@@ -41,7 +44,7 @@ void main() {
                 },
               );
           }
-        }
+        },
       ),
     );
   }
@@ -49,11 +52,13 @@ void main() {
   testWidgets('Page should display center progress bar when loading', (
     WidgetTester tester,
   ) async {
-    when(() => mockHomeMovieBloc.state).thenReturn(HomeMovieState(
-      nowPlayingState: RequestState.Loading,
-      popularState: RequestState.Loading,
-      topRatedState: RequestState.Loading,
-    ));
+    when(() => mockHomeMovieBloc.state).thenReturn(
+      HomeMovieState(
+        nowPlayingState: RequestState.Loading,
+        popularState: RequestState.Loading,
+        topRatedState: RequestState.Loading,
+      ),
+    );
 
     final progressBarFinder = find.byType(CircularProgressIndicator);
 
@@ -65,14 +70,16 @@ void main() {
   testWidgets('Page should display ListView when data is loaded', (
     WidgetTester tester,
   ) async {
-    when(() => mockHomeMovieBloc.state).thenReturn(HomeMovieState(
-      nowPlayingState: RequestState.Loaded,
-      popularState: RequestState.Loaded,
-      topRatedState: RequestState.Loaded,
-      nowPlayingMovies: <Movie>[],
-      popularMovies: <Movie>[],
-      topRatedMovies: <Movie>[],
-    ));
+    when(() => mockHomeMovieBloc.state).thenReturn(
+      HomeMovieState(
+        nowPlayingState: RequestState.Loaded,
+        popularState: RequestState.Loaded,
+        topRatedState: RequestState.Loaded,
+        nowPlayingMovies: <Movie>[],
+        popularMovies: <Movie>[],
+        topRatedMovies: <Movie>[],
+      ),
+    );
 
     final listViewFinder = find.byType(ListView);
 
@@ -84,12 +91,14 @@ void main() {
   testWidgets('Page should display text with message when Error', (
     WidgetTester tester,
   ) async {
-    when(() => mockHomeMovieBloc.state).thenReturn(HomeMovieState(
-      nowPlayingState: RequestState.Error,
-      popularState: RequestState.Error,
-      topRatedState: RequestState.Error,
-      message: 'Error message',
-    ));
+    when(() => mockHomeMovieBloc.state).thenReturn(
+      HomeMovieState(
+        nowPlayingState: RequestState.Error,
+        popularState: RequestState.Error,
+        topRatedState: RequestState.Error,
+        message: 'Error message',
+      ),
+    );
 
     final textFinder = find.text('Failed');
 
@@ -117,14 +126,16 @@ void main() {
       voteCount: 1,
     );
 
-    when(() => mockHomeMovieBloc.state).thenReturn(HomeMovieState(
-      nowPlayingState: RequestState.Loaded,
-      popularState: RequestState.Loaded,
-      topRatedState: RequestState.Loaded,
-      nowPlayingMovies: [testMovie],
-      popularMovies: <Movie>[],
-      topRatedMovies: <Movie>[],
-    ));
+    when(() => mockHomeMovieBloc.state).thenReturn(
+      HomeMovieState(
+        nowPlayingState: RequestState.Loaded,
+        popularState: RequestState.Loaded,
+        topRatedState: RequestState.Loaded,
+        nowPlayingMovies: [testMovie],
+        popularMovies: <Movie>[],
+        topRatedMovies: <Movie>[],
+      ),
+    );
 
     await tester.pumpWidget(_makeTestableWidget(HomeMoviePage()));
 
@@ -132,7 +143,9 @@ void main() {
       find.byType(CachedNetworkImage).first,
     );
     final errorWidget = cachedImage.errorWidget!(
-      tester.element(find.byType(CachedNetworkImage).first),  // Use tester.element instead of undefined context
+      tester.element(
+        find.byType(CachedNetworkImage).first,
+      ), // Use tester.element instead of undefined context
       'url',
       Exception('Failed to load image'),
     );
@@ -141,5 +154,4 @@ void main() {
     final icon = errorWidget as Icon;
     expect(icon.icon, Icons.error);
   });
-
- }
+}

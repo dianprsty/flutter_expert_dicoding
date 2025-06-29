@@ -6,6 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/state_enum.dart';
+import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/domain/entities/genre.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/domain/entities/tv_series_detail.dart';
@@ -70,15 +71,18 @@ class DetailContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenSize = MediaQuery.of(context).size;
     return Stack(
       children: [
-        CachedNetworkImage(
-          imageUrl: 'https://image.tmdb.org/t/p/w500${tvSeries.posterPath}',
-          width: screenWidth,
-          placeholder: (context, url) =>
-              Center(child: CircularProgressIndicator()),
-          errorWidget: (context, url, error) => Icon(Icons.error),
+        FutureBuilder(
+          future: getNetworkImage(
+            path: tvSeries.posterPath,
+            width: screenSize.width,
+            height: screenSize.height,
+          ),
+          builder: (context, snapshot) {
+            return snapshot.data ?? Container(color: kRichBlack);
+          },
         ),
         Container(
           margin: const EdgeInsets.only(top: 48 + 8),
@@ -216,17 +220,29 @@ class DetailContent extends StatelessWidget {
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(8),
                                               ),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    'https://image.tmdb.org/t/p/w500${tvSeries.posterPath}',
-                                                placeholder: (context, url) =>
-                                                    Center(
-                                                      child:
-                                                          CircularProgressIndicator(),
-                                                    ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(Icons.error),
+                                              child: FutureBuilder(
+                                                future: getNetworkImage(
+                                                  path:
+                                                      tvSeries.posterPath ?? '',
+                                                  width: 90,
+                                                ),
+                                                builder: (context, asyncSnapshot) {
+                                                  return ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                          Radius.circular(16),
+                                                        ),
+                                                    child:
+                                                        asyncSnapshot.data ??
+                                                        SizedBox(
+                                                          width: 90,
+                                                          child: Center(
+                                                            child:
+                                                                CircularProgressIndicator(),
+                                                          ),
+                                                        ),
+                                                  );
+                                                },
                                               ),
                                             ),
                                           ),
