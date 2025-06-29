@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742701887299",
+    "project_id": "movie-dian",
+    "storage_bucket": "movie-dian.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742701887299:android:b229733689ba26e150c9f6",
+        "android_client_info": {
+          "package_name": "com.dicoding.ditonton"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDphU6VLLqojxoePaLPm6EtAEA7a71-Z6A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

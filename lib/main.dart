@@ -1,16 +1,17 @@
-import 'package:ditonton/presentation/bloc/movie/search/search_movie_bloc.dart';
-import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/common/utils.dart';
+import 'package:ditonton/firebase_options.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/home/home_movie_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/popular/popular_movie_bloc.dart';
+import 'package:ditonton/presentation/bloc/movie/search/search_movie_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/top_rated/top_rated_movie_bloc.dart';
 import 'package:ditonton/presentation/bloc/movie/watchlist/watchlist_movie_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_series/detail/tv_series_detail_bloc.dart';
@@ -20,6 +21,7 @@ import 'package:ditonton/presentation/bloc/tv_series/popular/popular_tv_series_b
 import 'package:ditonton/presentation/bloc/tv_series/search/search_tv_series_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_series/top_rated/top_rated_tv_series_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_series/watchlist/watchlist_tv_series_bloc.dart';
+import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/home_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
@@ -33,7 +35,9 @@ import 'package:ditonton/presentation/pages/top_rated_tv_series_page.dart';
 import 'package:ditonton/presentation/pages/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   di.init();
   runApp(MyApp());
 }

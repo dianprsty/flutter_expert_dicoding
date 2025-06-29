@@ -4,6 +4,29 @@ Repository ini merupakan starter project submission kelas Flutter Expert Dicodin
 
 ---
 
+
+## Codemagic Build Result
+
+[![Codemagic build status](https://api.codemagic.io/apps/68607d4f64151ccb72ec3ec7/68607d4f64151ccb72ec3ec6/status_badge.svg)](https://codemagic.io/app/68607d4f64151ccb72ec3ec7/68607d4f64151ccb72ec3ec6/latest_build)
+
+
+![Codemagic build result](/assets/codemagic.png)
+
+
+
+## Firebase Crashltics and Analytics
+
+### Crashlitycs
+![Crashlytics](assets/crashlytic.png)
+
+![Crashlytics2](assets/crashlitic-2.png)
+
+
+### Analytics
+![Analytics](assets/analytic.png)
+
+
+---
 ## Tips Submission Awal
 
 Pastikan untuk memeriksa kembali seluruh hasil testing pada submissionmu sebelum dikirimkan. Karena kriteria pada submission ini akan diperiksa setelah seluruh berkas testing berhasil dijalankan.
