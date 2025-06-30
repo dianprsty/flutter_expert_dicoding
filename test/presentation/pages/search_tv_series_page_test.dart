@@ -18,19 +18,22 @@ void main() {
   setUp(() {
     mockBloc = MockSearchTvSeriesBloc();
     when(mockBloc.state).thenReturn(SearchTvSeriesState());
-    when(mockBloc.stream).thenAnswer((_) => Stream.value(SearchTvSeriesState()));
+    when(mockBloc.stream).thenAnswer((_) {
+      return Stream.value(SearchTvSeriesState());
+    });
   });
 
-  Widget _makeTestableWidget(Widget body) {
+  Widget makeTestableWidget(Widget body) {
     return BlocProvider<SearchTvSeriesBloc>.value(
       value: mockBloc,
       child: MaterialApp(home: body),
     );
   }
 
-  testWidgets('Page should display TextField and search button',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(_makeTestableWidget(SearchTvSeriesPage()));
+  testWidgets('Page should display TextField and search button', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(makeTestableWidget(SearchTvSeriesPage()));
 
     final textFieldFinder = find.byType(TextField);
     final searchIconFinder = find.byIcon(Icons.search);
@@ -39,19 +42,21 @@ void main() {
     expect(searchIconFinder, findsOneWidget);
   });
 
-  testWidgets('Page should display CircularProgressIndicator when loading',
-      (WidgetTester tester) async {
-    when(mockBloc.state).thenReturn(SearchTvSeriesState(
-      state: RequestState.Loading,
-    ));
+  testWidgets('Page should display CircularProgressIndicator when loading', (
+    WidgetTester tester,
+  ) async {
+    when(
+      mockBloc.state,
+    ).thenReturn(SearchTvSeriesState(state: RequestState.Loading));
 
-    await tester.pumpWidget(_makeTestableWidget(SearchTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(SearchTvSeriesPage()));
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
-  testWidgets('Page should display ListView when data is loaded',
-      (WidgetTester tester) async {
+  testWidgets('Page should display ListView when data is loaded', (
+    WidgetTester tester,
+  ) async {
     final tTvSeries = TvSeries(
       adult: false,
       backdropPath: 'backdropPath',
@@ -70,32 +75,35 @@ void main() {
     );
     final tTvSeriesList = <TvSeries>[tTvSeries];
 
-    when(mockBloc.state).thenReturn(SearchTvSeriesState(
-      state: RequestState.Loaded,
-      searchResult: tTvSeriesList,
-    ));
+    when(mockBloc.state).thenReturn(
+      SearchTvSeriesState(
+        state: RequestState.Loaded,
+        searchResult: tTvSeriesList,
+      ),
+    );
 
-    await tester.pumpWidget(_makeTestableWidget(SearchTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(SearchTvSeriesPage()));
 
     expect(find.byType(ListView), findsOneWidget);
     expect(find.byType(TvSeriesCard), findsOneWidget);
   });
 
-  testWidgets('Page should display text with message when Error',
-      (WidgetTester tester) async {
-    when(mockBloc.state).thenReturn(SearchTvSeriesState(
-      state: RequestState.Error,
-      message: 'Error message',
-    ));
+  testWidgets('Page should display text with message when Error', (
+    WidgetTester tester,
+  ) async {
+    when(mockBloc.state).thenReturn(
+      SearchTvSeriesState(state: RequestState.Error, message: 'Error message'),
+    );
 
-    await tester.pumpWidget(_makeTestableWidget(SearchTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(SearchTvSeriesPage()));
 
     expect(find.text('Error message'), findsOneWidget);
   });
 
-  testWidgets('TextField should trigger search when text is entered',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(_makeTestableWidget(SearchTvSeriesPage()));
+  testWidgets('TextField should trigger search when text is entered', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(makeTestableWidget(SearchTvSeriesPage()));
 
     await tester.enterText(find.byType(TextField), 'test query');
     await tester.pump();

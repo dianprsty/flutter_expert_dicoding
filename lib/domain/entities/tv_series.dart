@@ -35,22 +35,18 @@ class TvSeries extends Equatable {
   });
 
   const TvSeries.watchlist({
-    required int id,
-    required String overview,
-    required String posterPath,
-    required String name,
-  }) : id = id,
-       overview = overview,
-       adult = null,
+    required this.id,
+    required String this.overview,
+    required String this.posterPath,
+    required String this.name,
+  }) : adult = null,
        backdropPath = null,
        genreIds = null,
        originCountry = null,
        originalLanguage = null,
        originalName = null,
        popularity = null,
-       posterPath = posterPath,
        firstAirDate = null,
-       name = name,
        voteAverage = null,
        voteCount = null;
 

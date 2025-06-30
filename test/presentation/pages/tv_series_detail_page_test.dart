@@ -24,7 +24,7 @@ void main() {
     ).thenAnswer((_) => Stream.value(TvSeriesDetailState()));
   });
 
-  Widget _makeTestableWidget(Widget body) {
+  Widget makeTestableWidget(Widget body) {
     return BlocProvider<TvSeriesDetailBloc>.value(
       value: mockBloc,
       child: MaterialApp(home: body),
@@ -40,7 +40,7 @@ void main() {
 
     final progressFinder = find.byType(CircularProgressIndicator);
 
-    await tester.pumpWidget(_makeTestableWidget(TvSeriesDetailPage(id: 1)));
+    await tester.pumpWidget(makeTestableWidget(TvSeriesDetailPage(id: 1)));
 
     expect(progressFinder, findsOneWidget);
   });
@@ -57,7 +57,7 @@ void main() {
 
       final textFinder = find.text('Error message');
 
-      await tester.pumpWidget(_makeTestableWidget(TvSeriesDetailPage(id: 1)));
+      await tester.pumpWidget(makeTestableWidget(TvSeriesDetailPage(id: 1)));
 
       expect(textFinder, findsOneWidget);
     },
@@ -78,7 +78,7 @@ void main() {
 
     final detailFinder = find.byType(DetailContent);
 
-    await tester.pumpWidget(_makeTestableWidget(TvSeriesDetailPage(id: 1)));
+    await tester.pumpWidget(makeTestableWidget(TvSeriesDetailPage(id: 1)));
 
     expect(detailFinder, findsOneWidget);
   });
@@ -98,32 +98,30 @@ void main() {
 
       final watchlistButtonFinder = find.byType(FilledButton);
 
-      await tester.pumpWidget(_makeTestableWidget(TvSeriesDetailPage(id: 1)));
+      await tester.pumpWidget(makeTestableWidget(TvSeriesDetailPage(id: 1)));
 
       expect(watchlistButtonFinder, findsOneWidget);
     },
   );
 
-  testWidgets(
-    'Should display watchlist button with check icon when tv series is in watchlist',
-    (WidgetTester tester) async {
-      when(mockBloc.state).thenReturn(
-        TvSeriesDetailState(
-          tvSeriesState: RequestState.Loaded,
-          tvSeriesDetail: testTvSeriesDetail,
-          recommendationState: RequestState.Loaded,
-          tvSeriesRecommendations: <TvSeries>[],
-          isAddedToWatchlist: true,
-        ),
-      );
+  testWidgets('Should display watchlist button with check icon when '
+      'tv series is in watchlist', (WidgetTester tester) async {
+    when(mockBloc.state).thenReturn(
+      TvSeriesDetailState(
+        tvSeriesState: RequestState.Loaded,
+        tvSeriesDetail: testTvSeriesDetail,
+        recommendationState: RequestState.Loaded,
+        tvSeriesRecommendations: <TvSeries>[],
+        isAddedToWatchlist: true,
+      ),
+    );
 
-      final watchlistButtonIcon = find.byIcon(Icons.check);
+    final watchlistButtonIcon = find.byIcon(Icons.check);
 
-      await tester.pumpWidget(_makeTestableWidget(TvSeriesDetailPage(id: 1)));
+    await tester.pumpWidget(makeTestableWidget(TvSeriesDetailPage(id: 1)));
 
-      expect(watchlistButtonIcon, findsOneWidget);
-    },
-  );
+    expect(watchlistButtonIcon, findsOneWidget);
+  });
 
   testWidgets('Should display snackbar when added to watchlist', (
     WidgetTester tester,
@@ -141,7 +139,7 @@ void main() {
 
     final watchlistButton = find.byType(FilledButton);
 
-    await tester.pumpWidget(_makeTestableWidget(TvSeriesDetailPage(id: 1)));
+    await tester.pumpWidget(makeTestableWidget(TvSeriesDetailPage(id: 1)));
 
     expect(find.byIcon(Icons.add), findsOneWidget);
 
@@ -178,7 +176,7 @@ void main() {
 
     final watchlistButton = find.byType(FilledButton);
 
-    await tester.pumpWidget(_makeTestableWidget(TvSeriesDetailPage(id: 1)));
+    await tester.pumpWidget(makeTestableWidget(TvSeriesDetailPage(id: 1)));
 
     expect(find.byIcon(Icons.add), findsOneWidget);
 
@@ -217,7 +215,7 @@ void main() {
       '${testTvSeriesDetail.numberOfSeasons} Seasons',
     );
 
-    await tester.pumpWidget(_makeTestableWidget(TvSeriesDetailPage(id: 1)));
+    await tester.pumpWidget(makeTestableWidget(TvSeriesDetailPage(id: 1)));
 
     expect(seasonInfoFinder, findsOneWidget);
   });
@@ -238,7 +236,7 @@ void main() {
 
       final textFinder = find.text('Recommendation Error');
 
-      await tester.pumpWidget(_makeTestableWidget(TvSeriesDetailPage(id: 1)));
+      await tester.pumpWidget(makeTestableWidget(TvSeriesDetailPage(id: 1)));
 
       expect(textFinder, findsOneWidget);
     },
@@ -257,7 +255,7 @@ void main() {
       ),
     );
 
-    await tester.pumpWidget(_makeTestableWidget(TvSeriesDetailPage(id: 1)));
+    await tester.pumpWidget(makeTestableWidget(TvSeriesDetailPage(id: 1)));
 
     expect(find.byType(SeasonCard), findsWidgets);
   });

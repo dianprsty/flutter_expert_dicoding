@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/bloc/tv_series/top_rated/top_rated_tv_series_bloc.dart';
-import 'package:ditonton/presentation/widgets/tv_series_card_list.dart';
+import '../../common/state_enum.dart';
+import '../bloc/tv_series/top_rated/top_rated_tv_series_bloc.dart';
+import '../widgets/tv_series_card_list.dart';
 
 class TopRatedTvSeriesPage extends StatefulWidget {
   static const ROUTE_NAME = '/on-going-tv-series';
 
+  const TopRatedTvSeriesPage({super.key});
+
   @override
-  _TopRatedTvSeriesPageState createState() => _TopRatedTvSeriesPageState();
+  State<TopRatedTvSeriesPage> createState() => _TopRatedTvSeriesPageState();
 }
 
 class _TopRatedTvSeriesPageState extends State<TopRatedTvSeriesPage> {

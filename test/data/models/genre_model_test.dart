@@ -14,8 +14,8 @@ void main() {
   test('should create GenreModel from JSON', () async {
     // arrange
     final Map<String, dynamic> jsonMap = {
-      "id": 1,
-      "name": "Action"
+      'id': 1,
+      'name': 'Action'
     };
     
     // act
@@ -28,8 +28,8 @@ void main() {
   test('should convert to JSON map', () async {
     // arrange
     final expectedJsonMap = {
-      "id": 1,
-      "name": "Action"
+      'id': 1,
+      'name': 'Action'
     };
     
     // act

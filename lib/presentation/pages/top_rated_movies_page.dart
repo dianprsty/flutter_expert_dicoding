@@ -1,14 +1,16 @@
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/bloc/movie/top_rated/top_rated_movie_bloc.dart';
-import 'package:ditonton/presentation/widgets/movie_card_list.dart';
+import '../../common/state_enum.dart';
+import '../bloc/movie/top_rated/top_rated_movie_bloc.dart';
+import '../widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TopRatedMoviesPage extends StatefulWidget {
   static const ROUTE_NAME = '/top-rated-movie';
 
+  const TopRatedMoviesPage({super.key});
+
   @override
-  _TopRatedMoviesPageState createState() => _TopRatedMoviesPageState();
+  State<TopRatedMoviesPage> createState() => _TopRatedMoviesPageState();
 }
 
 class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {

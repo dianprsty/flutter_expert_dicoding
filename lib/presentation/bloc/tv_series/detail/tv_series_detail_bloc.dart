@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/tv_series.dart';
-import 'package:ditonton/domain/entities/tv_series_detail.dart';
-import 'package:ditonton/domain/usecases/tv_series/get_tv_series_detail.dart';
-import 'package:ditonton/domain/usecases/tv_series/get_tv_series_recommendations.dart';
-import 'package:ditonton/domain/usecases/tv_series/get_watchlist_tv_status.dart';
-import 'package:ditonton/domain/usecases/tv_series/remove_watchlist_tv.dart';
-import 'package:ditonton/domain/usecases/tv_series/save_watchlist_tv.dart';
+import '../../../../common/state_enum.dart';
+import '../../../../domain/entities/tv_series.dart';
+import '../../../../domain/entities/tv_series_detail.dart';
+import '../../../../domain/usecases/tv_series/get_tv_series_detail.dart';
+import '../../../../domain/usecases/tv_series/get_tv_series_recommendations.dart';
+import '../../../../domain/usecases/tv_series/get_watchlist_tv_status.dart';
+import '../../../../domain/usecases/tv_series/remove_watchlist_tv.dart';
+import '../../../../domain/usecases/tv_series/save_watchlist_tv.dart';
 
 part 'tv_series_detail_event.dart';
 part 'tv_series_detail_state.dart';

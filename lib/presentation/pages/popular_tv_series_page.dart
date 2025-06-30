@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/bloc/tv_series/popular/popular_tv_series_bloc.dart';
-import 'package:ditonton/presentation/widgets/tv_series_card_list.dart';
+import '../../common/state_enum.dart';
+import '../bloc/tv_series/popular/popular_tv_series_bloc.dart';
+import '../widgets/tv_series_card_list.dart';
 
 class PopularTvSeriesPage extends StatefulWidget {
   static const ROUTE_NAME = '/popular-tv-series';
 
+  const PopularTvSeriesPage({super.key});
+
   @override
-  _PopularTvSeriesPageState createState() => _PopularTvSeriesPageState();
+  State<PopularTvSeriesPage> createState() => _PopularTvSeriesPageState();
 }
 
 class _PopularTvSeriesPageState extends State<PopularTvSeriesPage> {

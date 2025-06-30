@@ -17,10 +17,12 @@ void main() {
   setUp(() {
     mockSearchMovieBloc = MockSearchMovieBloc();
     when(mockSearchMovieBloc.state).thenReturn(SearchMovieState());
-    when(mockSearchMovieBloc.stream).thenAnswer((_) => Stream.value(SearchMovieState()));
+    when(mockSearchMovieBloc.stream).thenAnswer((_) {
+      return Stream.value(SearchMovieState());
+    });
   });
 
-  Widget _makeTestableWidget(Widget body) {
+  Widget makeTestableWidget(Widget body) {
     return BlocProvider<SearchMovieBloc>.value(
       value: mockSearchMovieBloc,
       child: MaterialApp(home: body),
@@ -38,7 +40,7 @@ void main() {
       ),
     );
 
-    await tester.pumpWidget(_makeTestableWidget(SearchPage()));
+    await tester.pumpWidget(makeTestableWidget(SearchPage()));
 
     final textFieldFinder = find.byType(TextField);
     final searchIconFinder = find.byIcon(Icons.search);
@@ -58,7 +60,7 @@ void main() {
       ),
     );
 
-    await tester.pumpWidget(_makeTestableWidget(SearchPage()));
+    await tester.pumpWidget(makeTestableWidget(SearchPage()));
 
     final progressBarFinder = find.byType(CircularProgressIndicator);
     expect(progressBarFinder, findsOneWidget);
@@ -75,7 +77,7 @@ void main() {
       ),
     );
 
-    await tester.pumpWidget(_makeTestableWidget(SearchPage()));
+    await tester.pumpWidget(makeTestableWidget(SearchPage()));
 
     final listViewFinder = find.byType(ListView);
     expect(listViewFinder, findsOneWidget);
@@ -92,11 +94,13 @@ void main() {
       ),
     );
 
-    await tester.pumpWidget(_makeTestableWidget(SearchPage()));
+    await tester.pumpWidget(makeTestableWidget(SearchPage()));
 
     await tester.enterText(find.byType(TextField), 'spiderman');
     await tester.testTextInput.receiveAction(TextInputAction.search);
-    
-    verify(mockSearchMovieBloc.add(SearchMovieEvent.onQueryChanged('spiderman')));
+
+    verify(
+      mockSearchMovieBloc.add(SearchMovieEvent.onQueryChanged('spiderman')),
+    );
   });
 }

@@ -1,10 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rxdart/rxdart.dart';
 
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/usecases/movies/search_movies.dart';
+import '../../../../common/state_enum.dart';
+import '../../../../domain/entities/movie.dart';
+import '../../../../domain/usecases/movies/search_movies.dart';
 
 part 'search_movie_event.dart';
 part 'search_movie_state.dart';
@@ -16,14 +15,7 @@ class SearchMovieBloc extends Bloc<SearchMovieEvent, SearchMovieState> {
   SearchMovieBloc({required SearchMovies searchMovies})
     : _searchMovies = searchMovies,
       super(SearchMovieState()) {
-    on<_OnQueryChanged>(
-      _onQueryChanged,
-      transformer: _debounce(const Duration(milliseconds: 500)),
-    );
-  }
-
-  EventTransformer<T> _debounce<T>(Duration duration) {
-    return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
+    on<_OnQueryChanged>(_onQueryChanged);
   }
 
   void _onQueryChanged(_OnQueryChanged event, emit) async {

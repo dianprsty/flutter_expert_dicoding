@@ -55,7 +55,9 @@ void main() {
     originCountry: ['US'],
     originalLanguage: 'en',
     originalName: 'Game of Thrones',
-    overview: 'Seven noble families fight for control of the mythical land of Westeros.',
+    overview:
+        'Seven noble families fight for control '
+        'of the mythical land of Westeros.',
     popularity: 60.441,
     posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
     firstAirDate: '2011-04-17',
@@ -67,10 +69,12 @@ void main() {
   final tTvSeriesList = [tTvSeries];
 
   void arrangeUsecase() {
-    when(mockGetTvSeriesDetail.execute(tId))
-        .thenAnswer((_) async => Right(testTvSeriesDetail));
-    when(mockGetTvSeriesRecommendations.execute(tId))
-        .thenAnswer((_) async => Right(tTvSeriesList));
+    when(
+      mockGetTvSeriesDetail.execute(tId),
+    ).thenAnswer((_) async => Right(testTvSeriesDetail));
+    when(
+      mockGetTvSeriesRecommendations.execute(tId),
+    ).thenAnswer((_) async => Right(tTvSeriesList));
   }
 
   test('initial state should be empty', () {
@@ -102,10 +106,12 @@ void main() {
   blocTest<TvSeriesDetailBloc, TvSeriesDetailState>(
     'Should emit [Loading, Error] when get detail data is unsuccessful',
     build: () {
-      when(mockGetTvSeriesDetail.execute(tId))
-          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
-      when(mockGetTvSeriesRecommendations.execute(tId))
-          .thenAnswer((_) async => Right(tTvSeriesList));
+      when(
+        mockGetTvSeriesDetail.execute(tId),
+      ).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+      when(
+        mockGetTvSeriesRecommendations.execute(tId),
+      ).thenAnswer((_) async => Right(tTvSeriesList));
       return tvSeriesDetailBloc;
     },
     act: (bloc) => bloc.add(const TvSeriesDetailEvent.fetchTvSeriesDetail(tId)),
@@ -122,12 +128,15 @@ void main() {
   );
 
   blocTest<TvSeriesDetailBloc, TvSeriesDetailState>(
-    'Should emit [Loading, Loaded, Error] when get recommendation data is unsuccessful',
+    'Should emit [Loading, Loaded, Error] when '
+    'get recommendation data is unsuccessful',
     build: () {
-      when(mockGetTvSeriesDetail.execute(tId))
-          .thenAnswer((_) async => Right(testTvSeriesDetail));
-      when(mockGetTvSeriesRecommendations.execute(tId))
-          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+      when(
+        mockGetTvSeriesDetail.execute(tId),
+      ).thenAnswer((_) async => Right(testTvSeriesDetail));
+      when(
+        mockGetTvSeriesRecommendations.execute(tId),
+      ).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       return tvSeriesDetailBloc;
     },
     act: (bloc) => bloc.add(const TvSeriesDetailEvent.fetchTvSeriesDetail(tId)),
@@ -149,11 +158,13 @@ void main() {
   blocTest<TvSeriesDetailBloc, TvSeriesDetailState>(
     'Should emit [Watchlist Added] when add to watchlist is successful',
     build: () {
-      when(mockSaveWatchlistTvSeries.execute(testTvSeriesDetail))
-          .thenAnswer((_) async => const Right('Added to Watchlist'));
+      when(
+        mockSaveWatchlistTvSeries.execute(testTvSeriesDetail),
+      ).thenAnswer((_) async => const Right('Added to Watchlist'));
       return tvSeriesDetailBloc;
     },
-    act: (bloc) => bloc.add(TvSeriesDetailEvent.addWatchlist(testTvSeriesDetail)),
+    act: (bloc) =>
+        bloc.add(TvSeriesDetailEvent.addWatchlist(testTvSeriesDetail)),
     expect: () => [
       TvSeriesDetailState(
         watchlistMessage: 'Added to Watchlist',
@@ -168,16 +179,14 @@ void main() {
   blocTest<TvSeriesDetailBloc, TvSeriesDetailState>(
     'Should emit [Watchlist Error] when add to watchlist is unsuccessful',
     build: () {
-      when(mockSaveWatchlistTvSeries.execute(testTvSeriesDetail))
-          .thenAnswer((_) async => Left(DatabaseFailure('Database Failure')));
+      when(
+        mockSaveWatchlistTvSeries.execute(testTvSeriesDetail),
+      ).thenAnswer((_) async => Left(DatabaseFailure('Database Failure')));
       return tvSeriesDetailBloc;
     },
-    act: (bloc) => bloc.add(TvSeriesDetailEvent.addWatchlist(testTvSeriesDetail)),
-    expect: () => [
-      TvSeriesDetailState(
-        watchlistMessage: 'Database Failure',
-      ),
-    ],
+    act: (bloc) =>
+        bloc.add(TvSeriesDetailEvent.addWatchlist(testTvSeriesDetail)),
+    expect: () => [TvSeriesDetailState(watchlistMessage: 'Database Failure')],
     verify: (bloc) {
       verify(mockSaveWatchlistTvSeries.execute(testTvSeriesDetail));
     },
@@ -186,11 +195,13 @@ void main() {
   blocTest<TvSeriesDetailBloc, TvSeriesDetailState>(
     'Should emit [Watchlist Removed] when remove from watchlist is successful',
     build: () {
-      when(mockRemoveWatchlistTvSeries.execute(testTvSeriesDetail))
-          .thenAnswer((_) async => const Right('Removed from Watchlist'));
+      when(
+        mockRemoveWatchlistTvSeries.execute(testTvSeriesDetail),
+      ).thenAnswer((_) async => const Right('Removed from Watchlist'));
       return tvSeriesDetailBloc;
     },
-    act: (bloc) => bloc.add(TvSeriesDetailEvent.removeFromWatchlist(testTvSeriesDetail)),
+    act: (bloc) =>
+        bloc.add(TvSeriesDetailEvent.removeFromWatchlist(testTvSeriesDetail)),
     expect: () => [
       TvSeriesDetailState(
         watchlistMessage: 'Removed from Watchlist',
@@ -205,16 +216,14 @@ void main() {
   blocTest<TvSeriesDetailBloc, TvSeriesDetailState>(
     'Should emit [Watchlist Error] when remove from watchlist is unsuccessful',
     build: () {
-      when(mockRemoveWatchlistTvSeries.execute(testTvSeriesDetail))
-          .thenAnswer((_) async => Left(DatabaseFailure('Database Failure')));
+      when(
+        mockRemoveWatchlistTvSeries.execute(testTvSeriesDetail),
+      ).thenAnswer((_) async => Left(DatabaseFailure('Database Failure')));
       return tvSeriesDetailBloc;
     },
-    act: (bloc) => bloc.add(TvSeriesDetailEvent.removeFromWatchlist(testTvSeriesDetail)),
-    expect: () => [
-      TvSeriesDetailState(
-        watchlistMessage: 'Database Failure',
-      ),
-    ],
+    act: (bloc) =>
+        bloc.add(TvSeriesDetailEvent.removeFromWatchlist(testTvSeriesDetail)),
+    expect: () => [TvSeriesDetailState(watchlistMessage: 'Database Failure')],
     verify: (bloc) {
       verify(mockRemoveWatchlistTvSeries.execute(testTvSeriesDetail));
     },
@@ -223,16 +232,13 @@ void main() {
   blocTest<TvSeriesDetailBloc, TvSeriesDetailState>(
     'Should emit [Watchlist Status] when get watchlist status',
     build: () {
-      when(mockGetWatchListStatusTvSeries.execute(tId))
-          .thenAnswer((_) async => true);
+      when(
+        mockGetWatchListStatusTvSeries.execute(tId),
+      ).thenAnswer((_) async => true);
       return tvSeriesDetailBloc;
     },
     act: (bloc) => bloc.add(const TvSeriesDetailEvent.loadWatchlistStatus(tId)),
-    expect: () => [
-      TvSeriesDetailState(
-        isAddedToWatchlist: true,
-      ),
-    ],
+    expect: () => [TvSeriesDetailState(isAddedToWatchlist: true)],
     verify: (bloc) {
       verify(mockGetWatchListStatusTvSeries.execute(tId));
     },

@@ -38,7 +38,9 @@ void main() {
     id: 557,
     originalTitle: 'Spider-Man',
     overview:
-        'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+        'After being bitten by a genetically altered spider, '
+        'nerdy high school student Peter Parker is endowed with '
+        'amazing powers to become the Amazing superhero known as Spider-Man.',
     popularity: 60.441,
     posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
     releaseDate: '2002-05-01',
@@ -58,8 +60,9 @@ void main() {
     blocTest<HomeMovieBloc, HomeMovieState>(
       'Should emit [Loading, Loaded] when data is gotten successfully',
       build: () {
-        when(mockGetNowPlayingMovies.execute())
-            .thenAnswer((_) async => Right(tMovieList));
+        when(
+          mockGetNowPlayingMovies.execute(),
+        ).thenAnswer((_) async => Right(tMovieList));
         return homeMovieBloc;
       },
       act: (bloc) => bloc.add(const HomeMovieEvent.fetchNowPlayingMovies()),
@@ -78,8 +81,9 @@ void main() {
     blocTest<HomeMovieBloc, HomeMovieState>(
       'Should emit [Loading, Error] when get data is unsuccessful',
       build: () {
-        when(mockGetNowPlayingMovies.execute())
-            .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+        when(
+          mockGetNowPlayingMovies.execute(),
+        ).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
         return homeMovieBloc;
       },
       act: (bloc) => bloc.add(const HomeMovieEvent.fetchNowPlayingMovies()),
@@ -100,8 +104,9 @@ void main() {
     blocTest<HomeMovieBloc, HomeMovieState>(
       'Should emit [Loading, Loaded] when data is gotten successfully',
       build: () {
-        when(mockGetPopularMovies.execute())
-            .thenAnswer((_) async => Right(tMovieList));
+        when(
+          mockGetPopularMovies.execute(),
+        ).thenAnswer((_) async => Right(tMovieList));
         return homeMovieBloc;
       },
       act: (bloc) => bloc.add(const HomeMovieEvent.fetchPopularMovies()),
@@ -120,8 +125,9 @@ void main() {
     blocTest<HomeMovieBloc, HomeMovieState>(
       'Should emit [Loading, Error] when get data is unsuccessful',
       build: () {
-        when(mockGetPopularMovies.execute())
-            .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+        when(
+          mockGetPopularMovies.execute(),
+        ).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
         return homeMovieBloc;
       },
       act: (bloc) => bloc.add(const HomeMovieEvent.fetchPopularMovies()),
@@ -142,8 +148,9 @@ void main() {
     blocTest<HomeMovieBloc, HomeMovieState>(
       'Should emit [Loading, Loaded] when data is gotten successfully',
       build: () {
-        when(mockGetTopRatedMovies.execute())
-            .thenAnswer((_) async => Right(tMovieList));
+        when(
+          mockGetTopRatedMovies.execute(),
+        ).thenAnswer((_) async => Right(tMovieList));
         return homeMovieBloc;
       },
       act: (bloc) => bloc.add(const HomeMovieEvent.fetchTopRatedMovies()),
@@ -162,8 +169,9 @@ void main() {
     blocTest<HomeMovieBloc, HomeMovieState>(
       'Should emit [Loading, Error] when get data is unsuccessful',
       build: () {
-        when(mockGetTopRatedMovies.execute())
-            .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+        when(
+          mockGetTopRatedMovies.execute(),
+        ).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
         return homeMovieBloc;
       },
       act: (bloc) => bloc.add(const HomeMovieEvent.fetchTopRatedMovies()),

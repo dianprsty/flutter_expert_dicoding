@@ -14,7 +14,9 @@ final testMovie = Movie(
   id: 557,
   originalTitle: 'Spider-Man',
   overview:
-      'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+      'After being bitten by a genetically altered spider, '
+      'nerdy high school student Peter Parker is endowed with '
+      'amazing powers to become the Amazing superhero known as Spider-Man.',
   popularity: 60.441,
   posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
   releaseDate: '2002-05-01',
@@ -70,7 +72,9 @@ final testTvSeries = TvSeries(
   originCountry: ['US'],
   originalLanguage: 'en',
   originalName: 'Game of Thrones',
-  overview: 'Seven noble families fight for control of the mythical land of Westeros.',
+  overview:
+      'Seven noble families fight for '
+      'control of the mythical land of Westeros.',
   popularity: 60.441,
   posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
   firstAirDate: '2011-04-17',
@@ -106,7 +110,9 @@ final testTvSeriesDetail = TvSeriesDetail(
   name: 'Game of Thrones',
   numberOfEpisodes: 73,
   numberOfSeasons: 8,
-  overview: 'Seven noble families fight for control of the mythical land of Westeros.',
+  overview:
+      'Seven noble families fight for control '
+      'of the mythical land of Westeros.',
   posterPath: 'posterPath',
   seasons: [testSeason],
   status: 'Ended',
@@ -121,19 +127,25 @@ final testWatchlistTvSeries = TvSeries.watchlist(
   id: 1,
   name: 'Game of Thrones',
   posterPath: 'posterPath',
-  overview: 'Seven noble families fight for control of the mythical land of Westeros.',
+  overview:
+      'Seven noble families fight for control '
+      'of the mythical land of Westeros.',
 );
 
 final testTvSeriesTable = TvSeriesTable(
   id: 1,
   name: 'Game of Thrones',
   posterPath: 'posterPath',
-  overview: 'Seven noble families fight for control of the mythical land of Westeros.',
+  overview:
+      'Seven noble families fight for control '
+      'of the mythical land of Westeros.',
 );
 
 final testTvSeriesMap = {
   'id': 1,
   'name': 'Game of Thrones',
   'posterPath': 'posterPath',
-  'overview': 'Seven noble families fight for control of the mythical land of Westeros.',
+  'overview':
+      'Seven noble families fight for control '
+      'of the mythical land of Westeros.',
 };

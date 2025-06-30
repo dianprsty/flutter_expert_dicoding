@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/presentation/pages/movie_detail_page.dart';
+import '../../common/constants.dart';
+import '../../common/utils.dart';
+import '../../domain/entities/movie.dart';
+import '../pages/movie_detail_page.dart';
 
 class MovieCard extends StatelessWidget {
   final Movie movie;
 
-  MovieCard(this.movie);
+  const MovieCard(this.movie, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +60,8 @@ class MovieCard extends StatelessWidget {
                 ),
                 builder: (context, asyncSnapshot) {
                   return ClipRRect(
-                    child: asyncSnapshot.data ?? CircularProgressIndicator(),
                     borderRadius: BorderRadius.all(Radius.circular(8)),
+                    child: asyncSnapshot.data ?? CircularProgressIndicator(),
                   );
                 },
               ),

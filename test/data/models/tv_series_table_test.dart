@@ -13,23 +13,6 @@ void main() {
     overview: 'overview',
   );
 
-  final tTvSeries = TvSeries(
-    adult: false,
-    backdropPath: 'backdropPath',
-    genreIds: [1, 2, 3],
-    id: 1,
-    originCountry: ['US'],
-    originalLanguage: 'en',
-    originalName: 'originalName',
-    overview: 'overview',
-    popularity: 1,
-    posterPath: 'posterPath',
-    firstAirDate: 'firstAirDate',
-    name: 'name',
-    voteAverage: 1,
-    voteCount: 1,
-  );
-
   final tvSeriesDetail = TvSeriesDetail(
     adult: false,
     backdropPath: 'backdropPath',
@@ -103,14 +86,12 @@ void main() {
     expect(result.overview, 'overview');
   });
 
-  test(
-    'should create a valid TvSeriesTable with copyWith when no parameters are provided',
-    () {
-      final result = tTvSeriesTable.copyWith();
-      expect(result.id, 1);
-      expect(result.name, 'name');
-      expect(result.posterPath, 'posterPath');
-      expect(result.overview, 'overview');
-    },
-  );
+  test('should create a valid TvSeriesTable with copyWith '
+      'when no parameters are provided', () {
+    final result = tTvSeriesTable.copyWith();
+    expect(result.id, 1);
+    expect(result.name, 'name');
+    expect(result.posterPath, 'posterPath');
+    expect(result.overview, 'overview');
+  });
 }

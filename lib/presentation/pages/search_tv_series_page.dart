@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/bloc/tv_series/search/search_tv_series_bloc.dart';
-import 'package:ditonton/presentation/widgets/tv_series_card_list.dart';
+import '../../common/constants.dart';
+import '../../common/state_enum.dart';
+import '../bloc/tv_series/search/search_tv_series_bloc.dart';
+import '../widgets/tv_series_card_list.dart';
 
 class SearchTvSeriesPage extends StatelessWidget {
   static const ROUTE_NAME = '/search-tv';
+
+  const SearchTvSeriesPage({super.key});
 
   @override
   Widget build(BuildContext context) {

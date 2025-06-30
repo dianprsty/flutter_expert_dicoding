@@ -18,9 +18,7 @@ void main() {
 
   setUp(() {
     mockSearchMovies = MockSearchMovies();
-    searchMovieBloc = SearchMovieBloc(
-      searchMovies: mockSearchMovies,
-    );
+    searchMovieBloc = SearchMovieBloc(searchMovies: mockSearchMovies);
   });
 
   final tMovie = Movie(
@@ -30,7 +28,9 @@ void main() {
     id: 557,
     originalTitle: 'Spider-Man',
     overview:
-        'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+        'After being bitten by a genetically altered spider, '
+        'nerdy high school student Peter Parker is endowed with '
+        'amazing powers to become the Amazing superhero known as Spider-Man.',
     popularity: 60.441,
     posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
     releaseDate: '2002-05-01',
@@ -50,18 +50,16 @@ void main() {
   blocTest<SearchMovieBloc, SearchMovieState>(
     'Should emit [Loading, Loaded] when data is gotten successfully',
     build: () {
-      when(mockSearchMovies.execute(tQuery))
-          .thenAnswer((_) async => Right(tMovieList));
+      when(
+        mockSearchMovies.execute(tQuery),
+      ).thenAnswer((_) async => Right(tMovieList));
       return searchMovieBloc;
     },
     act: (bloc) => bloc.add(SearchMovieEvent.onQueryChanged(tQuery)),
     wait: const Duration(milliseconds: 500),
     expect: () => [
       SearchMovieState(state: RequestState.Loading),
-      SearchMovieState(
-        state: RequestState.Loaded,
-        searchResult: tMovieList,
-      ),
+      SearchMovieState(state: RequestState.Loaded, searchResult: tMovieList),
     ],
     verify: (bloc) {
       verify(mockSearchMovies.execute(tQuery));
@@ -71,18 +69,16 @@ void main() {
   blocTest<SearchMovieBloc, SearchMovieState>(
     'Should emit [Loading, Error] when get search is unsuccessful',
     build: () {
-      when(mockSearchMovies.execute(tQuery))
-          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+      when(
+        mockSearchMovies.execute(tQuery),
+      ).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       return searchMovieBloc;
     },
     act: (bloc) => bloc.add(SearchMovieEvent.onQueryChanged(tQuery)),
     wait: const Duration(milliseconds: 500),
     expect: () => [
       SearchMovieState(state: RequestState.Loading),
-      SearchMovieState(
-        state: RequestState.Error,
-        message: 'Server Failure',
-      ),
+      SearchMovieState(state: RequestState.Error, message: 'Server Failure'),
     ],
     verify: (bloc) {
       verify(mockSearchMovies.execute(tQuery));

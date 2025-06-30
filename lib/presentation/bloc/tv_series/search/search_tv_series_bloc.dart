@@ -1,10 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rxdart/rxdart.dart';
 
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/tv_series.dart';
-import 'package:ditonton/domain/usecases/tv_series/search_tv_series.dart';
+import '../../../../common/state_enum.dart';
+import '../../../../domain/entities/tv_series.dart';
+import '../../../../domain/usecases/tv_series/search_tv_series.dart';
 
 part 'search_tv_series_event.dart';
 part 'search_tv_series_state.dart';
@@ -17,14 +16,7 @@ class SearchTvSeriesBloc
   SearchTvSeriesBloc({required SearchTvSeries searchTvSeries})
     : _searchTvSeries = searchTvSeries,
       super(SearchTvSeriesState()) {
-    on<_OnQueryChanged>(
-      _onQueryChanged,
-      transformer: _debounce(const Duration(milliseconds: 500)),
-    );
-  }
-
-  EventTransformer<T> _debounce<T>(Duration duration) {
-    return (events, mapper) => events.debounceTime(duration).flatMap(mapper);
+    on<_OnQueryChanged>(_onQueryChanged);
   }
 
   void _onQueryChanged(_OnQueryChanged event, emit) async {

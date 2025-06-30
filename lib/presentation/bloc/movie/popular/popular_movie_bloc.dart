@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/usecases/movies/get_popular_movies.dart';
+import '../../../../common/state_enum.dart';
+import '../../../../domain/entities/movie.dart';
+import '../../../../domain/usecases/movies/get_popular_movies.dart';
 
 part 'popular_movie_event.dart';
 part 'popular_movie_state.dart';

@@ -45,20 +45,20 @@ void main() {
   test('should create TvSeriesModel from JSON', () async {
     // arrange
     final Map<String, dynamic> jsonMap = {
-      "adult": false,
-      "backdrop_path": "backdropPath",
-      "genre_ids": [1, 2, 3],
-      "id": 1,
-      "origin_country": ["US"],
-      "original_language": "en",
-      "original_name": "originalName",
-      "overview": "overview",
-      "popularity": 1.0,
-      "poster_path": "posterPath",
-      "first_air_date": "2022-01-01",
-      "name": "name",
-      "vote_average": 1.0,
-      "vote_count": 1
+      'adult': false,
+      'backdrop_path': 'backdropPath',
+      'genre_ids': [1, 2, 3],
+      'id': 1,
+      'origin_country': ['US'],
+      'original_language': 'en',
+      'original_name': 'originalName',
+      'overview': 'overview',
+      'popularity': 1.0,
+      'poster_path': 'posterPath',
+      'first_air_date': '2022-01-01',
+      'name': 'name',
+      'vote_average': 1.0,
+      'vote_count': 1
     };
     
     // act
@@ -71,20 +71,20 @@ void main() {
   test('should convert to JSON map', () async {
     // arrange
     final expectedJsonMap = {
-      "adult": false,
-      "backdrop_path": "backdropPath",
-      "genre_ids": [1, 2, 3],
-      "id": 1,
-      "origin_country": ["US"],
-      "original_language": "en",
-      "original_name": "originalName",
-      "overview": "overview",
-      "popularity": 1.0,
-      "poster_path": "posterPath",
-      "first_air_date": "2022-01-01",
-      "name": "name",
-      "vote_average": 1.0,
-      "vote_count": 1
+      'adult': false,
+      'backdrop_path': 'backdropPath',
+      'genre_ids': [1, 2, 3],
+      'id': 1,
+      'origin_country': ['US'],
+      'original_language': 'en',
+      'original_name': 'originalName',
+      'overview': 'overview',
+      'popularity': 1.0,
+      'poster_path': 'posterPath',
+      'first_air_date': '2022-01-01',
+      'name': 'name',
+      'vote_average': 1.0,
+      'vote_count': 1
     };
     
     // act

@@ -13,8 +13,8 @@ import '../../helpers/test_helper.mocks.dart';
 import '../../json_reader.dart';
 
 void main() {
-  const API_KEY = 'api_key=2174d146bb9c0eab47529b2e77d6b526';
-  const BASE_URL = 'https://api.themoviedb.org/3';
+  const apiKey = 'api_key=2174d146bb9c0eab47529b2e77d6b526';
+  const baseUrl = 'https://api.themoviedb.org/3';
 
   late TvSeriesRemoteDataSourceImpl dataSource;
   late MockHttpClient mockHttpClient;
@@ -34,7 +34,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockHttpClient.get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY')),
+          mockHttpClient.get(Uri.parse('$baseUrl/tv/on_the_air?$apiKey')),
         ).thenAnswer(
           (_) async => http.Response(
             readJson('dummy_data/on_the_air_tv_series.json'),
@@ -53,7 +53,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockHttpClient.get(Uri.parse('$BASE_URL/tv/on_the_air?$API_KEY')),
+          mockHttpClient.get(Uri.parse('$baseUrl/tv/on_the_air?$apiKey')),
         ).thenAnswer((_) async => http.Response('Not Found', 404));
         // act
         final call = dataSource.getOnTheAirTvSeries();
@@ -69,7 +69,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockHttpClient.get(Uri.parse('$BASE_URL/tv/popular?$API_KEY')),
+          mockHttpClient.get(Uri.parse('$baseUrl/tv/popular?$apiKey')),
         ).thenAnswer(
           (_) async =>
               http.Response(readJson('dummy_data/popular_tv_series.json'), 200),
@@ -86,7 +86,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockHttpClient.get(Uri.parse('$BASE_URL/tv/popular?$API_KEY')),
+          mockHttpClient.get(Uri.parse('$baseUrl/tv/popular?$apiKey')),
         ).thenAnswer((_) async => http.Response('Not Found', 404));
         // act
         final call = dataSource.getPopularTvSeries();
@@ -102,7 +102,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockHttpClient.get(Uri.parse('$BASE_URL/tv/top_rated?$API_KEY')),
+          mockHttpClient.get(Uri.parse('$baseUrl/tv/top_rated?$apiKey')),
         ).thenAnswer(
           (_) async => http.Response(
             readJson('dummy_data/top_rated_tv_series.json'),
@@ -121,7 +121,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockHttpClient.get(Uri.parse('$BASE_URL/tv/top_rated?$API_KEY')),
+          mockHttpClient.get(Uri.parse('$baseUrl/tv/top_rated?$apiKey')),
         ).thenAnswer((_) async => http.Response('Not Found', 404));
         // act
         final call = dataSource.getTopRatedTvSeries();
@@ -142,7 +142,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockHttpClient.get(Uri.parse('$BASE_URL/tv/$tId?$API_KEY')),
+          mockHttpClient.get(Uri.parse('$baseUrl/tv/$tId?$apiKey')),
         ).thenAnswer(
           (_) async =>
               http.Response(readJson('dummy_data/tv_series_detail.json'), 200),
@@ -159,7 +159,7 @@ void main() {
       () async {
         // arrange
         when(
-          mockHttpClient.get(Uri.parse('$BASE_URL/tv/$tId?$API_KEY')),
+          mockHttpClient.get(Uri.parse('$baseUrl/tv/$tId?$apiKey')),
         ).thenAnswer((_) async => http.Response('Not Found', 404));
         // act
         final call = dataSource.getTvSeriesDetail(tId);
@@ -181,7 +181,7 @@ void main() {
         // arrange
         when(
           mockHttpClient.get(
-            Uri.parse('$BASE_URL/tv/$tId/recommendations?$API_KEY'),
+            Uri.parse('$baseUrl/tv/$tId/recommendations?$apiKey'),
           ),
         ).thenAnswer(
           (_) async => http.Response(
@@ -202,7 +202,7 @@ void main() {
         // arrange
         when(
           mockHttpClient.get(
-            Uri.parse('$BASE_URL/tv/$tId/recommendations?$API_KEY'),
+            Uri.parse('$baseUrl/tv/$tId/recommendations?$apiKey'),
           ),
         ).thenAnswer((_) async => http.Response('Not Found', 404));
         // act
@@ -223,7 +223,7 @@ void main() {
       // arrange
       when(
         mockHttpClient.get(
-          Uri.parse('$BASE_URL/search/tv?$API_KEY&query=$tQuery'),
+          Uri.parse('$baseUrl/search/tv?$apiKey&query=$tQuery'),
         ),
       ).thenAnswer(
         (_) async => http.Response(
@@ -243,7 +243,7 @@ void main() {
         // arrange
         when(
           mockHttpClient.get(
-            Uri.parse('$BASE_URL/search/tv?$API_KEY&query=$tQuery'),
+            Uri.parse('$baseUrl/search/tv?$apiKey&query=$tQuery'),
           ),
         ).thenAnswer((_) async => http.Response('Not Found', 404));
         // act

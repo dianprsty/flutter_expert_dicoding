@@ -1,14 +1,16 @@
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/bloc/movie/popular/popular_movie_bloc.dart';
-import 'package:ditonton/presentation/widgets/movie_card_list.dart';
+import '../../common/state_enum.dart';
+import '../bloc/movie/popular/popular_movie_bloc.dart';
+import '../widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PopularMoviesPage extends StatefulWidget {
   static const ROUTE_NAME = '/popular-movie';
 
+  const PopularMoviesPage({super.key});
+
   @override
-  _PopularMoviesPageState createState() => _PopularMoviesPageState();
+  State<PopularMoviesPage> createState() => _PopularMoviesPageState();
 }
 
 class _PopularMoviesPageState extends State<PopularMoviesPage> {

@@ -20,10 +20,12 @@ void main() {
   setUp(() {
     mockmockBloc = MockOnTheAirTvSeriesBloc();
     when(mockmockBloc.state).thenReturn(OnTheAirTvSeriesState());
-    when(mockmockBloc.stream).thenAnswer((_) => Stream.value(OnTheAirTvSeriesState()));
+    when(mockmockBloc.stream).thenAnswer((_) {
+      return Stream.value(OnTheAirTvSeriesState());
+    });
   });
 
-  Widget _makeTestableWidget(Widget body) {
+  Widget makeTestableWidget(Widget body) {
     return BlocProvider<OnTheAirTvSeriesBloc>.value(
       value: mockmockBloc,
       child: MaterialApp(home: body),
@@ -33,16 +35,18 @@ void main() {
   testWidgets('Page should display center progress bar when loading', (
     WidgetTester tester,
   ) async {
-    when(mockmockBloc.state).thenReturn(OnTheAirTvSeriesState(
-      requestState: RequestState.Loading,
-      tvSeries: [],
-      message: '',
-    ));
+    when(mockmockBloc.state).thenReturn(
+      OnTheAirTvSeriesState(
+        requestState: RequestState.Loading,
+        tvSeries: [],
+        message: '',
+      ),
+    );
 
     final progressBarFinder = find.byType(CircularProgressIndicator);
     final centerFinder = find.byType(Center);
 
-    await tester.pumpWidget(_makeTestableWidget(OnTheAirTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(OnTheAirTvSeriesPage()));
 
     expect(centerFinder, findsOneWidget);
     expect(progressBarFinder, findsOneWidget);
@@ -68,15 +72,17 @@ void main() {
       voteCount: 1,
     );
 
-    when(mockmockBloc.state).thenReturn(OnTheAirTvSeriesState(
-      requestState: RequestState.Loaded,
-      tvSeries: <TvSeries>[testTvSeries],
-      message: '',
-    ));
+    when(mockmockBloc.state).thenReturn(
+      OnTheAirTvSeriesState(
+        requestState: RequestState.Loaded,
+        tvSeries: <TvSeries>[testTvSeries],
+        message: '',
+      ),
+    );
 
     final listViewFinder = find.byType(ListView);
 
-    await tester.pumpWidget(_makeTestableWidget(OnTheAirTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(OnTheAirTvSeriesPage()));
 
     expect(listViewFinder, findsOneWidget);
     expect(find.byType(TvSeriesCard), findsOneWidget);
@@ -86,30 +92,34 @@ void main() {
     WidgetTester tester,
   ) async {
     const errorMessage = 'Error message';
-    when(mockmockBloc.state).thenReturn(OnTheAirTvSeriesState(
-      requestState: RequestState.Error,
-      tvSeries: [],
-      message: errorMessage,
-    ));
+    when(mockmockBloc.state).thenReturn(
+      OnTheAirTvSeriesState(
+        requestState: RequestState.Error,
+        tvSeries: [],
+        message: errorMessage,
+      ),
+    );
 
     final textFinder = find.byKey(Key('error_message'));
 
-    await tester.pumpWidget(_makeTestableWidget(OnTheAirTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(OnTheAirTvSeriesPage()));
 
     expect(textFinder, findsOneWidget);
-    expect(find.text(errorMessage), findsOneWidget); 
+    expect(find.text(errorMessage), findsOneWidget);
   });
 
   testWidgets('Page should call fetchOnTheAirTvSeries when initialized', (
     WidgetTester tester,
   ) async {
-    when(mockmockBloc.state).thenReturn(OnTheAirTvSeriesState(
-      requestState: RequestState.Loading,
-      tvSeries: [],
-      message: '',
-    ));
+    when(mockmockBloc.state).thenReturn(
+      OnTheAirTvSeriesState(
+        requestState: RequestState.Loading,
+        tvSeries: [],
+        message: '',
+      ),
+    );
 
-    await tester.pumpWidget(_makeTestableWidget(OnTheAirTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(OnTheAirTvSeriesPage()));
 
     verify(mockmockBloc.add(OnTheAirTvSeriesEvent.fetchOnTheAirTvSeries()));
   });
@@ -117,13 +127,15 @@ void main() {
   testWidgets('Page should display correct app bar title', (
     WidgetTester tester,
   ) async {
-    when(mockmockBloc.state).thenReturn(OnTheAirTvSeriesState(
-      requestState: RequestState.Loading,
-      tvSeries: [],
-      message: '',
-    ));
+    when(mockmockBloc.state).thenReturn(
+      OnTheAirTvSeriesState(
+        requestState: RequestState.Loading,
+        tvSeries: [],
+        message: '',
+      ),
+    );
 
-    await tester.pumpWidget(_makeTestableWidget(OnTheAirTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(OnTheAirTvSeriesPage()));
 
     expect(find.text('On Going Tv Series'), findsOneWidget);
   });

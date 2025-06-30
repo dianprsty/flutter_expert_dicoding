@@ -30,7 +30,9 @@ void main() {
     id: 557,
     originalTitle: 'Spider-Man',
     overview:
-        'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+        'After being bitten by a genetically altered spider, '
+        'nerdy high school student Peter Parker is endowed with '
+        'amazing powers to become the Amazing superhero known as Spider-Man.',
     popularity: 60.441,
     posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
     releaseDate: '2002-05-01',
@@ -49,17 +51,15 @@ void main() {
   blocTest<TopRatedMovieBloc, TopRatedMovieState>(
     'Should emit [Loading, Loaded] when data is gotten successfully',
     build: () {
-      when(mockGetTopRatedMovies.execute())
-          .thenAnswer((_) async => Right(tMovieList));
+      when(
+        mockGetTopRatedMovies.execute(),
+      ).thenAnswer((_) async => Right(tMovieList));
       return topRatedMovieBloc;
     },
     act: (bloc) => bloc.add(const TopRatedMovieEvent.fetchTopRatedMovies()),
     expect: () => [
       TopRatedMovieState(requestState: RequestState.Loading),
-      TopRatedMovieState(
-        requestState: RequestState.Loaded,
-        movies: tMovieList,
-      ),
+      TopRatedMovieState(requestState: RequestState.Loaded, movies: tMovieList),
     ],
     verify: (bloc) {
       verify(mockGetTopRatedMovies.execute());
@@ -69,8 +69,9 @@ void main() {
   blocTest<TopRatedMovieBloc, TopRatedMovieState>(
     'Should emit [Loading, Error] when get data is unsuccessful',
     build: () {
-      when(mockGetTopRatedMovies.execute())
-          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+      when(
+        mockGetTopRatedMovies.execute(),
+      ).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       return topRatedMovieBloc;
     },
     act: (bloc) => bloc.add(const TopRatedMovieEvent.fetchTopRatedMovies()),

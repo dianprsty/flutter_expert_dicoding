@@ -38,7 +38,7 @@ void main() {
     mockWatchlistTvSeriesBloc.close();
   });
 
-  Widget _makeTestableWidget(Widget body) {
+  Widget makeTestableWidget(Widget body) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<WatchlistMovieBloc>.value(value: mockWatchlistMovieBloc),
@@ -91,7 +91,7 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(_makeTestableWidget(WatchlistMoviesPage()));
+      await tester.pumpWidget(makeTestableWidget(WatchlistMoviesPage()));
 
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
@@ -141,7 +141,7 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(_makeTestableWidget(WatchlistMoviesPage()));
+      await tester.pumpWidget(makeTestableWidget(WatchlistMoviesPage()));
 
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
@@ -192,7 +192,7 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(_makeTestableWidget(WatchlistMoviesPage()));
+      await tester.pumpWidget(makeTestableWidget(WatchlistMoviesPage()));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 500));
 
@@ -241,7 +241,7 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(_makeTestableWidget(WatchlistMoviesPage()));
+      await tester.pumpWidget(makeTestableWidget(WatchlistMoviesPage()));
 
       await tester.tap(find.text('Movies'));
       await tester.pump();
@@ -293,7 +293,7 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(_makeTestableWidget(WatchlistMoviesPage()));
+      await tester.pumpWidget(makeTestableWidget(WatchlistMoviesPage()));
 
       await tester.tap(find.text('Movies'));
       await tester.pump();
@@ -344,7 +344,7 @@ void main() {
           ),
         );
 
-        await tester.pumpWidget(_makeTestableWidget(WatchlistMoviesPage()));
+        await tester.pumpWidget(makeTestableWidget(WatchlistMoviesPage()));
 
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 500));
@@ -399,7 +399,7 @@ void main() {
         ),
       );
 
-      await tester.pumpWidget(_makeTestableWidget(WatchlistMoviesPage()));
+      await tester.pumpWidget(makeTestableWidget(WatchlistMoviesPage()));
 
       await tester.tap(find.text('Movies'));
       await tester.pump();

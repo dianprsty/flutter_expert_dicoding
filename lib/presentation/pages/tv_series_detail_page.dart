@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/domain/entities/genre.dart';
-import 'package:ditonton/domain/entities/tv_series.dart';
-import 'package:ditonton/domain/entities/tv_series_detail.dart';
-import 'package:ditonton/presentation/bloc/tv_series/detail/tv_series_detail_bloc.dart';
-import 'package:ditonton/presentation/widgets/season_card.dart';
+import '../../common/constants.dart';
+import '../../common/state_enum.dart';
+import '../../common/utils.dart';
+import '../../domain/entities/genre.dart';
+import '../../domain/entities/tv_series.dart';
+import '../../domain/entities/tv_series_detail.dart';
+import '../bloc/tv_series/detail/tv_series_detail_bloc.dart';
+import '../widgets/season_card.dart';
 
 class TvSeriesDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/tv-series/detail';
 
   final int id;
-  TvSeriesDetailPage({required this.id});
+  const TvSeriesDetailPage({super.key, required this.id});
 
   @override
-  _TvSeriesDetailPageState createState() => _TvSeriesDetailPageState();
+  State<TvSeriesDetailPage> createState() => _TvSeriesDetailPageState();
 }
 
 class _TvSeriesDetailPageState extends State<TvSeriesDetailPage> {
@@ -67,7 +66,12 @@ class DetailContent extends StatelessWidget {
   final List<TvSeries> recommendations;
   final bool isAddedWatchlist;
 
-  DetailContent(this.tvSeries, this.recommendations, this.isAddedWatchlist);
+  const DetailContent(
+    this.tvSeries,
+    this.recommendations,
+    this.isAddedWatchlist, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -200,56 +204,8 @@ class DetailContent extends StatelessWidget {
                                   return Text(state.message);
                                 } else if (state.recommendationState ==
                                     RequestState.Loaded) {
-                                  return Container(
-                                    height: 150,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        final tvSeries = recommendations[index];
-                                        return Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.pushReplacementNamed(
-                                                context,
-                                                TvSeriesDetailPage.ROUTE_NAME,
-                                                arguments: tvSeries.id,
-                                              );
-                                            },
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                              child: FutureBuilder(
-                                                future: getNetworkImage(
-                                                  path:
-                                                      tvSeries.posterPath ?? '',
-                                                  width: 90,
-                                                ),
-                                                builder: (context, asyncSnapshot) {
-                                                  return ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                          Radius.circular(16),
-                                                        ),
-                                                    child:
-                                                        asyncSnapshot.data ??
-                                                        SizedBox(
-                                                          width: 90,
-                                                          child: Center(
-                                                            child:
-                                                                CircularProgressIndicator(),
-                                                          ),
-                                                        ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      itemCount: recommendations.length,
-                                    ),
+                                  return RecomendationWidget(
+                                    recommendations: recommendations,
                                   );
                                 } else {
                                   return Container();
@@ -261,9 +217,9 @@ class DetailContent extends StatelessWidget {
 
                             Column(
                               children: [
-                                ...tvSeries.seasons
-                                    .map((season) => SeasonCard(season: season))
-                                    .toList(),
+                                ...tvSeries.seasons.map(
+                                  (season) => SeasonCard(season: season),
+                                ),
                               ],
                             ),
                           ],
@@ -305,7 +261,7 @@ class DetailContent extends StatelessWidget {
   String _showGenres(List<Genre> genres) {
     String result = '';
     for (var genre in genres) {
-      result += genre.name + ', ';
+      result += '${genre.name}, ';
     }
 
     if (result.isEmpty) {
@@ -313,5 +269,57 @@ class DetailContent extends StatelessWidget {
     }
 
     return result.substring(0, result.length - 2);
+  }
+}
+
+class RecomendationWidget extends StatelessWidget {
+  const RecomendationWidget({super.key, required this.recommendations});
+
+  final List<TvSeries> recommendations;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 150,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          final tvSeries = recommendations[index];
+          return Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                  context,
+                  TvSeriesDetailPage.ROUTE_NAME,
+                  arguments: tvSeries.id,
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                child: FutureBuilder(
+                  future: getNetworkImage(
+                    path: tvSeries.posterPath ?? '',
+                    width: 90,
+                  ),
+                  builder: (context, asyncSnapshot) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                      child:
+                          asyncSnapshot.data ??
+                          SizedBox(
+                            width: 90,
+                            child: Center(child: CircularProgressIndicator()),
+                          ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
+        },
+        itemCount: recommendations.length,
+      ),
+    );
   }
 }

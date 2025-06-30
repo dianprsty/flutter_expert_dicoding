@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/usecases/movies/get_now_playing_movies.dart';
-import 'package:ditonton/domain/usecases/movies/get_popular_movies.dart';
-import 'package:ditonton/domain/usecases/movies/get_top_rated_movies.dart';
+import '../../../../common/state_enum.dart';
+import '../../../../domain/entities/movie.dart';
+import '../../../../domain/usecases/movies/get_now_playing_movies.dart';
+import '../../../../domain/usecases/movies/get_popular_movies.dart';
+import '../../../../domain/usecases/movies/get_top_rated_movies.dart';
 
 part 'home_movie_event.dart';
 part 'home_movie_state.dart';

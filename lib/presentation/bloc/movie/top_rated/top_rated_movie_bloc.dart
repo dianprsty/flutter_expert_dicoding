@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/usecases/movies/get_top_rated_movies.dart';
+import '../../../../common/state_enum.dart';
+import '../../../../domain/entities/movie.dart';
+import '../../../../domain/usecases/movies/get_top_rated_movies.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'top_rated_movie_event.dart';

@@ -16,7 +16,7 @@ void main() {
   });
 
   final tId = 1;
-  final tTvSeriesDetail = testTvSeriesDetail; // You need to add this to dummy_objects.dart
+  final tTvSeriesDetail = testTvSeriesDetail;
 
   test('should get tv series detail from the repository', () async {
     // arrange

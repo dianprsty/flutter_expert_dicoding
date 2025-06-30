@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:cached_network_image/cached_network_image.dart';
-
-import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/domain/entities/tv_series.dart';
-import 'package:ditonton/presentation/pages/tv_series_detail_page.dart';
+import '../../common/constants.dart';
+import '../../common/utils.dart';
+import '../../domain/entities/tv_series.dart';
+import '../pages/tv_series_detail_page.dart';
 
 class TvSeriesCard extends StatelessWidget {
   final TvSeries tvSeries;
 
-  TvSeriesCard(this.tvSeries);
+  const TvSeriesCard(this.tvSeries, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +60,8 @@ class TvSeriesCard extends StatelessWidget {
                 ),
                 builder: (context, asyncSnapshot) {
                   return ClipRRect(
-                    child: asyncSnapshot.data ?? CircularProgressIndicator(),
                     borderRadius: BorderRadius.all(Radius.circular(8)),
+                    child: asyncSnapshot.data ?? CircularProgressIndicator(),
                   );
                 },
               ),

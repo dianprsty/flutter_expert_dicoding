@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:ditonton/presentation/pages/about_page.dart';
-import 'package:ditonton/presentation/pages/home_movie_page.dart';
-import 'package:ditonton/presentation/pages/home_tv_series_page.dart';
-import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
+import '../pages/about_page.dart';
+import '../pages/home_movie_page.dart';
+import '../pages/home_tv_series_page.dart';
+import '../pages/watchlist_movies_page.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});

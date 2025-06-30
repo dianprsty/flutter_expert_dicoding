@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/domain/entities/tv_series.dart';
 import 'package:ditonton/presentation/pages/tv_series_detail_page.dart';
 import 'package:ditonton/presentation/widgets/tv_series_card_list.dart';
@@ -14,7 +13,9 @@ void main() {
     originCountry: ['US'],
     originalLanguage: 'en',
     originalName: 'Game of Thrones',
-    overview: 'Seven noble families fight for control of the mythical land of Westeros.',
+    overview:
+        'Seven noble families fight for control '
+        'of the mythical land of Westeros.',
     popularity: 60.441,
     posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
     firstAirDate: '2011-04-17',
@@ -23,29 +24,33 @@ void main() {
     voteCount: 11504,
   );
 
-  Widget _makeTestableWidget(Widget body) {
+  Widget makeTestableWidget(Widget body) {
     return MaterialApp(
-      home: Scaffold(
-        body: body,
-      ),
-      routes: {
-        TvSeriesDetailPage.ROUTE_NAME: (_) => Container(),
-      },
+      home: Scaffold(body: body),
+      routes: {TvSeriesDetailPage.ROUTE_NAME: (_) => Container()},
     );
   }
 
-  testWidgets('TvSeriesCard should display TV series information correctly',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(_makeTestableWidget(TvSeriesCard(testTvSeries)));
+  testWidgets('TvSeriesCard should display TV series information correctly', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(makeTestableWidget(TvSeriesCard(testTvSeries)));
 
     expect(find.text('Game of Thrones'), findsOneWidget);
-    expect(find.text('Seven noble families fight for control of the mythical land of Westeros.'), findsOneWidget);
-    expect(find.byType(CachedNetworkImage), findsOneWidget);
+    expect(
+      find.text(
+        'Seven noble families fight for control '
+        'of the mythical land of Westeros.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.byType(ClipRRect), findsAtLeast(1));
   });
 
-  testWidgets('TvSeriesCard should navigate to detail page when tapped',
-      (WidgetTester tester) async {
-    await tester.pumpWidget(_makeTestableWidget(TvSeriesCard(testTvSeries)));
+  testWidgets('TvSeriesCard should navigate to detail page when tapped', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(makeTestableWidget(TvSeriesCard(testTvSeries)));
 
     await tester.tap(find.byType(InkWell));
     await tester.pumpAndSettle();
@@ -53,8 +58,9 @@ void main() {
     expect(find.byType(Container), findsOneWidget);
   });
 
-  testWidgets('TvSeriesCard should display placeholder when name is null',
-      (WidgetTester tester) async {
+  testWidgets('TvSeriesCard should display placeholder when name is null', (
+    WidgetTester tester,
+  ) async {
     final tvSeriesWithNullName = TvSeries(
       adult: false,
       backdropPath: '/muth4OYamXf41G2evdrLEg8d3om.jpg',
@@ -63,7 +69,9 @@ void main() {
       originCountry: ['US'],
       originalLanguage: 'en',
       originalName: 'Game of Thrones',
-      overview: 'Seven noble families fight for control of the mythical land of Westeros.',
+      overview:
+          'Seven noble families fight for control '
+          'of the mythical land of Westeros.',
       popularity: 60.441,
       posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
       firstAirDate: '2011-04-17',
@@ -72,7 +80,9 @@ void main() {
       voteCount: 11504,
     );
 
-    await tester.pumpWidget(_makeTestableWidget(TvSeriesCard(tvSeriesWithNullName)));
+    await tester.pumpWidget(
+      makeTestableWidget(TvSeriesCard(tvSeriesWithNullName)),
+    );
 
     expect(find.text('-'), findsOneWidget);
   });

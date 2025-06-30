@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/domain/entities/genre.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/entities/movie_detail.dart';
-import 'package:ditonton/presentation/bloc/movie/detail/movie_detail_bloc.dart';
+import '../../common/constants.dart';
+import '../../common/state_enum.dart';
+import '../../common/utils.dart';
+import '../../domain/entities/genre.dart';
+import '../../domain/entities/movie.dart';
+import '../../domain/entities/movie_detail.dart';
+import '../bloc/movie/detail/movie_detail_bloc.dart';
 
 class MovieDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/detail';
 
   final int id;
-  MovieDetailPage({required this.id});
+  const MovieDetailPage({super.key, required this.id});
 
   @override
-  _MovieDetailPageState createState() => _MovieDetailPageState();
+  State<MovieDetailPage> createState() => _MovieDetailPageState();
 }
 
 class _MovieDetailPageState extends State<MovieDetailPage> {
@@ -66,7 +65,12 @@ class DetailContent extends StatelessWidget {
   final List<Movie> recommendations;
   final bool isAddedWatchlist;
 
-  DetailContent(this.movie, this.recommendations, this.isAddedWatchlist);
+  const DetailContent(
+    this.movie,
+    this.recommendations,
+    this.isAddedWatchlist, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +79,7 @@ class DetailContent extends StatelessWidget {
       children: [
         FutureBuilder(
           future: getNetworkImage(
-            path: movie.backdropPath ?? '',
+            path: movie.posterPath,
             width: screenSize.width,
             height: screenSize.height,
           ),
@@ -142,7 +146,7 @@ class DetailContent extends StatelessWidget {
                                             .watchlistAddSuccessMessage &&
                                     message !=
                                         MovieDetailBloc
-                                            .watchlistRemoveSuccessMessage)
+                                            .watchlistRemoveSuccessMessage) {
                                   showDialog(
                                     context: context,
                                     builder: (context) {
@@ -151,6 +155,7 @@ class DetailContent extends StatelessWidget {
                                       );
                                     },
                                   );
+                                }
                               },
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -193,55 +198,8 @@ class DetailContent extends StatelessWidget {
                                   return Text(state.message);
                                 } else if (state.recommendationState ==
                                     RequestState.Loaded) {
-                                  return Container(
-                                    height: 150,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        final movie = recommendations[index];
-                                        return Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.pushReplacementNamed(
-                                                context,
-                                                MovieDetailPage.ROUTE_NAME,
-                                                arguments: movie.id,
-                                              );
-                                            },
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(8),
-                                              ),
-                                              child: FutureBuilder(
-                                                future: getNetworkImage(
-                                                  path: movie.posterPath ?? '',
-                                                  width: 90,
-                                                ),
-                                                builder: (context, asyncSnapshot) {
-                                                  return ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                          Radius.circular(16),
-                                                        ),
-                                                    child:
-                                                        asyncSnapshot.data ??
-                                                        SizedBox(
-                                                          width: 90,
-                                                          child: Center(
-                                                            child:
-                                                                CircularProgressIndicator(),
-                                                          ),
-                                                        ),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      itemCount: recommendations.length,
-                                    ),
+                                  return RecomendationWidget(
+                                    recommendations: recommendations,
                                   );
                                 } else {
                                   return Container();
@@ -287,7 +245,7 @@ class DetailContent extends StatelessWidget {
   String _showGenres(List<Genre> genres) {
     String result = '';
     for (var genre in genres) {
-      result += genre.name + ', ';
+      result += '${genre.name}, ';
     }
 
     if (result.isEmpty) {
@@ -306,5 +264,57 @@ class DetailContent extends StatelessWidget {
     } else {
       return '${minutes}m';
     }
+  }
+}
+
+class RecomendationWidget extends StatelessWidget {
+  const RecomendationWidget({super.key, required this.recommendations});
+
+  final List<Movie> recommendations;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 150,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          final movie = recommendations[index];
+          return Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                  context,
+                  MovieDetailPage.ROUTE_NAME,
+                  arguments: movie.id,
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                child: FutureBuilder(
+                  future: getNetworkImage(
+                    path: movie.posterPath ?? '',
+                    width: 90,
+                  ),
+                  builder: (context, asyncSnapshot) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                      child:
+                          asyncSnapshot.data ??
+                          SizedBox(
+                            width: 90,
+                            child: Center(child: CircularProgressIndicator()),
+                          ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          );
+        },
+        itemCount: recommendations.length,
+      ),
+    );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/tv_series.dart';
-import 'package:ditonton/domain/usecases/tv_series/get_on_the_air_tv_series.dart';
+import '../../../../common/state_enum.dart';
+import '../../../../domain/entities/tv_series.dart';
+import '../../../../domain/usecases/tv_series/get_on_the_air_tv_series.dart';
 
 part 'on_the_air_tv_series_event.dart';
 part 'on_the_air_tv_series_state.dart';

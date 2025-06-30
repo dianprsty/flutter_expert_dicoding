@@ -20,7 +20,7 @@ void main() {
     when(mockBloc.stream).thenAnswer((_) => Stream.value(HomeTvSeriesState()));
   });
 
-  Widget _makeTestableWidget(Widget body) {
+  Widget makeTestableWidget(Widget body) {
     return BlocProvider<HomeTvSeriesBloc>.value(
       value: mockBloc,
       child: MaterialApp(
@@ -58,7 +58,7 @@ void main() {
 
     final progressBarFinder = find.byType(CircularProgressIndicator);
 
-    await tester.pumpWidget(_makeTestableWidget(HomeTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(HomeTvSeriesPage()));
 
     expect(progressBarFinder, findsWidgets);
   });
@@ -77,7 +77,7 @@ void main() {
 
     final listViewFinder = find.byType(ListView);
 
-    await tester.pumpWidget(_makeTestableWidget(HomeTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(HomeTvSeriesPage()));
 
     expect(listViewFinder, findsWidgets);
   });
@@ -94,7 +94,7 @@ void main() {
 
     final textFinder = find.text('Failed: Error message');
 
-    await tester.pumpWidget(_makeTestableWidget(HomeTvSeriesPage()));
+    await tester.pumpWidget(makeTestableWidget(HomeTvSeriesPage()));
 
     expect(textFinder, findsWidgets);
   });

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:ditonton/data/models/genre_model.dart';
-import 'package:ditonton/data/models/season_model.dart';
-import 'package:ditonton/domain/entities/tv_series_detail.dart';
+import 'genre_model.dart';
+import 'season_model.dart';
+import '../../domain/entities/tv_series_detail.dart';
 
 class TvSeriesDetailResponse extends Equatable {
   const TvSeriesDetailResponse({
@@ -89,28 +89,28 @@ class TvSeriesDetailResponse extends Equatable {
   }
 
   Map<String, dynamic> toJson() => {
-    "adult": adult,
-    "backdrop_path": backdropPath,
-    "episode_run_time": List<dynamic>.from(episodeRunTime.map((x) => x)),
-    "first_air_date": firstAirDate,
-    "genres": List<dynamic>.from(genres.map((x) => x.toJson())),
-    "homepage": homepage,
-    "id": id,
-    "in_production": inProduction,
-    "languages": List<dynamic>.from(languages.map((x) => x)),
-    "last_air_date": lastAirDate,
-    "name": name,
-    "number_of_episodes": numberOfEpisodes,
-    "number_of_seasons": numberOfSeasons,
-    "overview": overview,
-    "popularity": popularity,
-    "poster_path": posterPath,
-    "seasons": List<dynamic>.from(seasons.map((x) => x.toJson())),
-    "status": status,
-    "tagline": tagline,
-    "type": type,
-    "vote_average": voteAverage,
-    "vote_count": voteCount,
+    'adult': adult,
+    'backdrop_path': backdropPath,
+    'episode_run_time': List<dynamic>.from(episodeRunTime.map((x) => x)),
+    'first_air_date': firstAirDate,
+    'genres': List<dynamic>.from(genres.map((x) => x.toJson())),
+    'homepage': homepage,
+    'id': id,
+    'in_production': inProduction,
+    'languages': List<dynamic>.from(languages.map((x) => x)),
+    'last_air_date': lastAirDate,
+    'name': name,
+    'number_of_episodes': numberOfEpisodes,
+    'number_of_seasons': numberOfSeasons,
+    'overview': overview,
+    'popularity': popularity,
+    'poster_path': posterPath,
+    'seasons': List<dynamic>.from(seasons.map((x) => x.toJson())),
+    'status': status,
+    'tagline': tagline,
+    'type': type,
+    'vote_average': voteAverage,
+    'vote_count': voteCount,
   };
 
   TvSeriesDetail toEntity() {

@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/common/utils.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/presentation/bloc/movie/home/home_movie_bloc.dart';
-import 'package:ditonton/presentation/pages/movie_detail_page.dart';
-import 'package:ditonton/presentation/pages/popular_movies_page.dart';
-import 'package:ditonton/presentation/pages/search_page.dart';
-import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
-import 'package:ditonton/presentation/widgets/app_drawer.dart';
+import '../../common/constants.dart';
+import '../../common/state_enum.dart';
+import '../../common/utils.dart';
+import '../../domain/entities/movie.dart';
+import '../bloc/movie/home/home_movie_bloc.dart';
+import '../widgets/app_drawer.dart';
+
+import 'movie_detail_page.dart';
+import 'popular_movies_page.dart';
+import 'search_page.dart';
+import 'top_rated_movies_page.dart';
 
 class HomeMoviePage extends StatefulWidget {
   static const ROUTE_NAME = '/home-movie';
+
+  const HomeMoviePage({super.key});
   @override
-  _HomeMoviePageState createState() => _HomeMoviePageState();
+  State<HomeMoviePage> createState() => _HomeMoviePageState();
 }
 
 class _HomeMoviePageState extends State<HomeMoviePage> {
@@ -71,10 +73,11 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   }
                 },
               ),
-              _buildSubHeading(
+              SubHeading(
                 title: 'Popular',
-                onTap: () =>
-                    Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
+                onTap: () {
+                  Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME);
+                },
               ),
               BlocBuilder<HomeMovieBloc, HomeMovieState>(
                 builder: (context, state) {
@@ -88,7 +91,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   }
                 },
               ),
-              _buildSubHeading(
+              SubHeading(
                 title: 'Top Rated',
                 onTap: () =>
                     Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME),
@@ -111,8 +114,16 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
       ),
     );
   }
+}
 
-  Row _buildSubHeading({required String title, required Function() onTap}) {
+class SubHeading extends StatelessWidget {
+  const SubHeading({super.key, required this.title, required this.onTap});
+
+  final String title;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -134,11 +145,11 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
 class MovieList extends StatelessWidget {
   final List<Movie> movies;
 
-  MovieList(this.movies);
+  const MovieList(this.movies, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 200,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,

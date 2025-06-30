@@ -1,15 +1,12 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/io_client.dart';
 
-import 'package:ditonton/common/constants.dart';
+import 'constants.dart';
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
@@ -36,11 +33,11 @@ Future<Widget> getNetworkImage({
     client.badCertificateCallback =
         (X509Certificate cert, String host, int port) => false;
     IOClient ioClient = IOClient(client);
-    final response = await ioClient.get(Uri.parse('$BASE_IMAGE_URL${path}'));
+    final response = await ioClient.get(Uri.parse('$BASE_IMAGE_URL$path'));
 
     if (response.statusCode == 200) {
       return CachedNetworkImage(
-        imageUrl: '$BASE_IMAGE_URL${path}',
+        imageUrl: '$BASE_IMAGE_URL$path',
         width: width,
         height: height,
         fit: BoxFit.cover,

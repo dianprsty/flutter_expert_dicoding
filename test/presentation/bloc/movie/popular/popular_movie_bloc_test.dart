@@ -18,9 +18,7 @@ void main() {
 
   setUp(() {
     mockGetPopularMovies = MockGetPopularMovies();
-    popularMovieBloc = PopularMovieBloc(
-      getPopularMovies: mockGetPopularMovies,
-    );
+    popularMovieBloc = PopularMovieBloc(getPopularMovies: mockGetPopularMovies);
   });
 
   final tMovie = Movie(
@@ -30,7 +28,9 @@ void main() {
     id: 557,
     originalTitle: 'Spider-Man',
     overview:
-        'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
+        'After being bitten by a genetically altered spider, '
+        'nerdy high school student Peter Parker is endowed with '
+        'amazing powers to become the Amazing superhero known as Spider-Man.',
     popularity: 60.441,
     posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
     releaseDate: '2002-05-01',
@@ -49,17 +49,15 @@ void main() {
   blocTest<PopularMovieBloc, PopularMovieState>(
     'Should emit [Loading, Loaded] when data is gotten successfully',
     build: () {
-      when(mockGetPopularMovies.execute())
-          .thenAnswer((_) async => Right(tMovieList));
+      when(
+        mockGetPopularMovies.execute(),
+      ).thenAnswer((_) async => Right(tMovieList));
       return popularMovieBloc;
     },
     act: (bloc) => bloc.add(const PopularMovieEvent.fetchPopularMovies()),
     expect: () => [
       PopularMovieState(requestState: RequestState.Loading),
-      PopularMovieState(
-        requestState: RequestState.Loaded,
-        movies: tMovieList,
-      ),
+      PopularMovieState(requestState: RequestState.Loaded, movies: tMovieList),
     ],
     verify: (bloc) {
       verify(mockGetPopularMovies.execute());
@@ -69,8 +67,9 @@ void main() {
   blocTest<PopularMovieBloc, PopularMovieState>(
     'Should emit [Loading, Error] when get data is unsuccessful',
     build: () {
-      when(mockGetPopularMovies.execute())
-          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+      when(
+        mockGetPopularMovies.execute(),
+      ).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       return popularMovieBloc;
     },
     act: (bloc) => bloc.add(const PopularMovieEvent.fetchPopularMovies()),

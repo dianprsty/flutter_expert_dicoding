@@ -31,7 +31,9 @@ void main() {
     originCountry: ['US'],
     originalLanguage: 'en',
     originalName: 'Game of Thrones',
-    overview: 'Seven noble families fight for control of the mythical land of Westeros.',
+    overview:
+        'Seven noble families fight for control '
+        'of the mythical land of Westeros.',
     popularity: 60.441,
     posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
     firstAirDate: '2011-04-17',
@@ -49,11 +51,13 @@ void main() {
   blocTest<TopRatedTvSeriesBloc, TopRatedTvSeriesState>(
     'Should emit [Loading, Loaded] when data is gotten successfully',
     build: () {
-      when(mockGetTopRatedTvSeries.execute())
-          .thenAnswer((_) async => Right(tTvSeriesList));
+      when(
+        mockGetTopRatedTvSeries.execute(),
+      ).thenAnswer((_) async => Right(tTvSeriesList));
       return topRatedTvSeriesBloc;
     },
-    act: (bloc) => bloc.add(const TopRatedTvSeriesEvent.fetchTopRatedTvSeries()),
+    act: (bloc) =>
+        bloc.add(const TopRatedTvSeriesEvent.fetchTopRatedTvSeries()),
     expect: () => [
       TopRatedTvSeriesState(requestState: RequestState.Loading),
       TopRatedTvSeriesState(
@@ -69,11 +73,13 @@ void main() {
   blocTest<TopRatedTvSeriesBloc, TopRatedTvSeriesState>(
     'Should emit [Loading, Error] when get data is unsuccessful',
     build: () {
-      when(mockGetTopRatedTvSeries.execute())
-          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+      when(
+        mockGetTopRatedTvSeries.execute(),
+      ).thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       return topRatedTvSeriesBloc;
     },
-    act: (bloc) => bloc.add(const TopRatedTvSeriesEvent.fetchTopRatedTvSeries()),
+    act: (bloc) =>
+        bloc.add(const TopRatedTvSeriesEvent.fetchTopRatedTvSeries()),
     expect: () => [
       TopRatedTvSeriesState(requestState: RequestState.Loading),
       TopRatedTvSeriesState(

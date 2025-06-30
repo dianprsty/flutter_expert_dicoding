@@ -33,10 +33,10 @@ class Movie extends Equatable {
   });
 
   const Movie.watchlist({
-    required int id,
-    required String overview,
-    required String posterPath,
-    required String title,
+    required this.id,
+    required String this.overview,
+    required String this.posterPath,
+    required String this.title,
   }) : adult = null,
        backdropPath = null,
        genreIds = null,
@@ -45,11 +45,7 @@ class Movie extends Equatable {
        releaseDate = null,
        video = null,
        voteAverage = null,
-       voteCount = null,
-       id = id,
-       overview = overview,
-       posterPath = posterPath,
-       title = title;
+       voteCount = null;
 
   @override
   List<Object?> get props => [

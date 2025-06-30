@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/domain/entities/tv_series.dart';
-import 'package:ditonton/domain/usecases/tv_series/get_top_rated_tv_series.dart';
+import '../../../../common/state_enum.dart';
+import '../../../../domain/entities/tv_series.dart';
+import '../../../../domain/usecases/tv_series/get_top_rated_tv_series.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'top_rated_tv_series_event.dart';
