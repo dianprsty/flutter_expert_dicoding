@@ -38,7 +38,7 @@ import 'presentation/pages/watchlist_movies_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  di.init();
+  await di.init();
   runApp(MyApp());
 }
 

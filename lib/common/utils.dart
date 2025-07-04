@@ -4,17 +4,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 
 import 'constants.dart';
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 
-Future<SecurityContext> get globalContext async {
-  final sslCert = await rootBundle.load('certificate/image-tmdb-org.pem');
+Future<SecurityContext> globalContext(String certificate) async {
+  final sslCert = await rootBundle.load(certificate);
   SecurityContext securityContext = SecurityContext(withTrustedRoots: false);
   securityContext.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());
   return securityContext;
+}
+
+class SslPinning {
+  static Future<Client> getPinnedIOClient() async {
+    try {
+      HttpClient client = HttpClient(
+        context: await globalContext('certificate/themoviedb-org.pem'),
+      );
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => false;
+      return IOClient(client);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
 
 Future<Widget> getNetworkImage({
@@ -29,7 +45,9 @@ Future<Widget> getNetworkImage({
     child: Icon(Icons.image_not_supported, size: width / 3),
   );
   try {
-    HttpClient client = HttpClient(context: await globalContext);
+    HttpClient client = HttpClient(
+      context: await globalContext('certificate/image-tmdb-org.pem'),
+    );
     client.badCertificateCallback =
         (X509Certificate cert, String host, int port) => false;
     IOClient ioClient = IOClient(client);

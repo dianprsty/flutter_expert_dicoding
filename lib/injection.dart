@@ -1,17 +1,8 @@
-import 'presentation/bloc/movie/detail/movie_detail_bloc.dart';
-import 'presentation/bloc/movie/home/home_movie_bloc.dart';
-import 'presentation/bloc/movie/popular/popular_movie_bloc.dart';
-import 'presentation/bloc/movie/search/search_movie_bloc.dart';
-import 'presentation/bloc/movie/top_rated/top_rated_movie_bloc.dart';
-import 'presentation/bloc/movie/watchlist/watchlist_movie_bloc.dart';
-import 'presentation/bloc/tv_series/home/home_tv_series_bloc.dart';
-import 'presentation/bloc/tv_series/popular/popular_tv_series_bloc.dart';
-import 'presentation/bloc/tv_series/search/search_tv_series_bloc.dart';
-import 'presentation/bloc/tv_series/top_rated/top_rated_tv_series_bloc.dart';
-import 'presentation/bloc/tv_series/watchlist/watchlist_tv_series_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:http/io_client.dart';
 
+import 'common/utils.dart';
 import 'data/datasources/db/database_helper.dart';
 import 'data/datasources/movie_local_data_source.dart';
 import 'data/datasources/movie_remote_data_source.dart';
@@ -41,12 +32,23 @@ import 'domain/usecases/tv_series/get_watchlist_tv_status.dart';
 import 'domain/usecases/tv_series/remove_watchlist_tv.dart';
 import 'domain/usecases/tv_series/save_watchlist_tv.dart';
 import 'domain/usecases/tv_series/search_tv_series.dart';
+import 'presentation/bloc/movie/detail/movie_detail_bloc.dart';
+import 'presentation/bloc/movie/home/home_movie_bloc.dart';
+import 'presentation/bloc/movie/popular/popular_movie_bloc.dart';
+import 'presentation/bloc/movie/search/search_movie_bloc.dart';
+import 'presentation/bloc/movie/top_rated/top_rated_movie_bloc.dart';
+import 'presentation/bloc/movie/watchlist/watchlist_movie_bloc.dart';
 import 'presentation/bloc/tv_series/detail/tv_series_detail_bloc.dart';
+import 'presentation/bloc/tv_series/home/home_tv_series_bloc.dart';
 import 'presentation/bloc/tv_series/on_the_air/on_the_air_tv_series_bloc.dart';
+import 'presentation/bloc/tv_series/popular/popular_tv_series_bloc.dart';
+import 'presentation/bloc/tv_series/search/search_tv_series_bloc.dart';
+import 'presentation/bloc/tv_series/top_rated/top_rated_tv_series_bloc.dart';
+import 'presentation/bloc/tv_series/watchlist/watchlist_tv_series_bloc.dart';
 
 final locator = GetIt.instance;
 
-void init() {
+Future<void> init() async {
   // bloc
   locator.registerFactory<OnTheAirTvSeriesBloc>(
     () => OnTheAirTvSeriesBloc(getOnTheAirTvSeries: locator()),
@@ -174,5 +176,6 @@ void init() {
   locator.registerLazySingleton<DatabaseHelper>(() => DatabaseHelper());
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  final Client httpClient = await SslPinning.getPinnedIOClient();
+  locator.registerLazySingleton<Client>(() => httpClient);
 }

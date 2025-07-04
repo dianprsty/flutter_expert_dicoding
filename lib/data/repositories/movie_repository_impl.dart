@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import '../datasources/movie_local_data_source.dart';
-import '../datasources/movie_remote_data_source.dart';
-import '../models/movie_table.dart';
+
+import '../../common/exception.dart';
+import '../../common/failure.dart';
 import '../../domain/entities/movie.dart';
 import '../../domain/entities/movie_detail.dart';
 import '../../domain/repositories/movie_repository.dart';
-import '../../common/exception.dart';
-import '../../common/failure.dart';
+import '../datasources/movie_local_data_source.dart';
+import '../datasources/movie_remote_data_source.dart';
+import '../models/movie_table.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
   final MovieRemoteDataSource remoteDataSource;
@@ -28,6 +29,10 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
@@ -40,6 +45,10 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
@@ -52,6 +61,10 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
@@ -64,6 +77,10 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
@@ -76,6 +93,10 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
@@ -88,6 +109,10 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 

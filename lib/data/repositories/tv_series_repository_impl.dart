@@ -4,12 +4,12 @@ import 'package:dartz/dartz.dart';
 
 import '../../common/exception.dart';
 import '../../common/failure.dart';
-import '../datasources/tv_series_local_data_source.dart';
-import '../datasources/tv_series_remote_data_source.dart';
-import '../models/tv_series_table.dart';
 import '../../domain/entities/tv_series.dart';
 import '../../domain/entities/tv_series_detail.dart';
 import '../../domain/repositories/tv_series_repository.dart';
+import '../datasources/tv_series_local_data_source.dart';
+import '../datasources/tv_series_remote_data_source.dart';
+import '../models/tv_series_table.dart';
 
 class TvSeriesRepositoryImpl implements TvSeriesRepository {
   final TvSeriesRemoteDataSource remoteDataSource;
@@ -29,6 +29,10 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
@@ -41,6 +45,10 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
@@ -55,6 +63,10 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
@@ -67,6 +79,10 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
@@ -79,6 +95,10 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
@@ -91,6 +111,10 @@ class TvSeriesRepositoryImpl implements TvSeriesRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(CertificateFailure('Cannot access resource'));
+    } catch (e) {
+      return Left(ServerFailure('Failed to get data'));
     }
   }
 
